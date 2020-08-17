@@ -6,7 +6,7 @@ const postSchema = new Schema(
     message: String,
     user: { type : Schema.Types.ObjectId, ref: 'User' },
     helper: { type : Schema.Types.ObjectId, ref: 'User'},
-    bounty: { type: Number, default: 500},
+    bounty: { type: Number, default: Number(process.env.BOUNTY)},
     resolved: {type: Boolean, default: false }
   },
   {

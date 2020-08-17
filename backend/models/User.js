@@ -10,7 +10,7 @@ const userSchema = new Schema(
     calendly: { type: String, default: "https://calendly.com/ Click here to set your calendly!"},
     posts: [{ type : Schema.Types.ObjectId, ref: 'Posts' }],
     points: {
-      type: Number, default: 25000
+      type: Number, default: Number(process.env.POINTS)
     }
   },
   {
