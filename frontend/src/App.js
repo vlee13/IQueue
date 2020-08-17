@@ -11,16 +11,20 @@ import actions from "./api/index";
 import GoogleAuth from "./components/auth/GoogleAuth";
 import GoogleAuthLogin from "./components/auth/GoogleAuthLogin";
 import {NotificationContainer, NotificationManager} from 'react-notifications';
+// import Loader from 'react-loader-spinner'
+
 
 const App = () => {
 
   let [user, setUser] = useState(null)
+  let [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function getUser() {
       let user = await actions.getUser();
       console.log('user is', user)
       setUser(user?.data)
+      setLoading(false)
     }
     getUser();
   }, [])
@@ -87,7 +91,15 @@ const App = () => {
         <Route component={NotFound} />
       </Switch>
 
+
+
       <NotificationContainer />
+
+      {loading ? 
+            
+            <h1>Loading...</h1>
+
+      : null }
     </TheContext.Provider>
 
   )
