@@ -59,6 +59,9 @@ const Posts = () => {
   }, [])
 
 
+  if(posts.length === 0){
+    return <div className="loading"><i><h2>There are no pending posts in the queue. Great job!  Click on Profile to add a new one.</h2></i></div>
+  }
 
   return posts.map(eachPost => (
     <Fragment key={Math.random()}>
