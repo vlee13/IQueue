@@ -22,7 +22,7 @@
 ##### git commit -m 'deploying' 
 ##### git push
 ##### git push heroku master
-##### add convig var for MONGDB_URI in heroku dashboard
+##### add config var for MONGDB_URI in heroku dashboard
 
 
 ## Deploy to Netlify
