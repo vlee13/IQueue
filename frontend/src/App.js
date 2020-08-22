@@ -6,9 +6,11 @@ import Home from "./components/home/Home";
 import NotFound from "./components/404/NotFound.js";
 
 import User from "./components/user/User"
-import AllUsers from "./components/user/AllUsers";
 
+import AllUsers from "./components/user/AllUsers";
 import Profile from "./components/profile/Profile";
+import Post from './components/home/Post.js'
+
 import actions from "./api/index";
 import GoogleAuth from "./components/auth/GoogleAuth";
 import GoogleAuthLogin from "./components/auth/GoogleAuthLogin";
@@ -20,7 +22,7 @@ const App = () => {
 
   let [user, setUser] = useState(null)
   let [loading, setLoading] = useState(true)
-  let [countdown, setCountDown] = useState(15)
+  let [countdown, setCountDown] = useState(18)
   let [gif, setGif] = useState(null)
   useEffect(() => {
     async function getUser() {
@@ -32,7 +34,8 @@ const App = () => {
     }
 
     async function getGif(){
-      setGif( await actions.getGif() )
+      setGif( await actions.getGif('dog') )
+      setTimeout( async () => setGif( await actions.getGif('cat') ), 9999)
     } 
 
 
@@ -106,7 +109,11 @@ const App = () => {
           path="/user/:id"
           render={(props) => <User {...props} />}
         />
-
+        <Route
+          exact
+          path="/post/:id"
+          render={(props) => <Post {...props} />}
+        />
         <Route
           exact
           path="/profile"

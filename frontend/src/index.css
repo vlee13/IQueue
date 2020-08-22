@@ -1,5 +1,5 @@
 *{
-  transition:all .5s; 
+  transition:all .2s; 
 }
 body {
   margin: 0;
@@ -234,8 +234,9 @@ iframe.giphy-embed {
   flex-direction: column;
 }
 
-.ppl:hover{
-  background: #ddd;
+.post a:hover, .ppl:hover{
+  /* background: #efefef; */
+  text-decoration: underline;
 }
 
 .user{
@@ -254,11 +255,64 @@ iframe.giphy-embed {
 iframe{
   position: relative;
 }
+.user a{
+  font-size: 8px;
+}
+.user .calendly{
+  font-size: 8px;
+  position: relative;
+}
+.user .calendly iframe{
+  position: absolute;
+  top: 0;
+}
 
+.allUsers li{
+  padding: 0 10px
 
+}
 
+ .allUsers li a {
+  display:flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  color: black;
+  text-decoration: none;
+}
 
-@media (max-width:400px){
+.post a {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  text-decoration: none;
+}
+
+.post img:hover{
+  opacity: .5;
+}
+
+.allUsers li img{
+  max-height: 30px;
+  margin-right: 10px;
+}
+
+.ppl span{
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  margin: 10px;
+}
+
+.user .details{
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media (max-width:600px){
   .user{
     flex-direction: column;
     height:1500px;

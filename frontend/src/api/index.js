@@ -64,6 +64,9 @@ const actions = {
   getOthersResolvedMyPosts: async() => {
     return await API.get('/others-resolve-my-posts', head())
   },
+  getPost: async(id)=>{
+    return await API.get(`/post?id=${id}`, head())
+  },
   helpUser: async (user) => {
     return await API.post('/help', user, head())
   },
@@ -76,8 +79,8 @@ const actions = {
   updateCalendly: async(post) => {
     return await API.post('/calendly', post, head())
   },
-  getGif: async () => {
-    let res = await axios.get('https://api.giphy.com/v1/gifs/search?api_key=X2zaDYIPM87ua1kWDXdcQFfTQ1jPFfYA&q=cat&limit=25&offset=0&rating=g&lang=en')
+  getGif: async (q) => {
+    let res = await axios.get(`https://api.giphy.com/v1/gifs/search?api_key=X2zaDYIPM87ua1kWDXdcQFfTQ1jPFfYA&q=${q}&limit=25&offset=0&rating=g&lang=en`)
     let random = res?.data?.data[Math.floor(Math.random()*res?.data?.data?.length)]
     return random?.embed_url
   }

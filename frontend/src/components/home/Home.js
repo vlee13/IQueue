@@ -1,4 +1,6 @@
 import React, { Fragment, Component, useState, useEffect } from 'react';
+import {Link} from 'react-router-dom'
+
 import TheContext from '../../TheContext'
 import Scheduler from './Scheduler'
 
@@ -49,7 +51,6 @@ const EachPost = ( post ) => {
 
 const Posts = () => {
   const [posts, setPosts] = useState([])
-  console.log(posts)
   useEffect(() => { 
     actions.getAllPosts()
       .then(posts => {
@@ -64,25 +65,32 @@ const Posts = () => {
   }
 
   return posts.map(eachPost => (
-    <Fragment key={Math.random()}>
+    <Fragment key={eachPost._id}>
 
       <li className="post">
-        <img src={eachPost.user?.imageUrl} />
-        <div className="details">
-          { eachPost.helper ? 
-             eachPost.resolved ? 
-               <i>{eachPost.user?.name}'s issue was resolved by {eachPost.helper?.name} </i>
+
+        <Link to={`/user/${eachPost.user?._id}`}>
+          <img src={eachPost.user?.imageUrl} />
+        </Link>
+
+        <Link to={`/post/${eachPost._id}`}>
+
+          <div className="details">
+            { eachPost.helper ? 
+              eachPost.resolved ? 
+                <i>{eachPost.user?.name}'s issue was resolved by {eachPost.helper?.name} </i>
+                : 
+                <i>{eachPost.user?.name} is being helped by {eachPost.helper?.name} </i>            
               : 
-              <i>{eachPost.user?.name} is being helped by {eachPost.helper?.name} </i>            
-            : 
-            <i>{eachPost.user?.name} needs your help</i>
+              <i>{eachPost.user?.name} needs your help</i>
 
-          }
-          <div>"{eachPost.message}"</div>
-          <i>{eachPost.bounty} Points</i>
-        </div>
+            }
+            <div>"{eachPost.message}"</div>
+            <i>{eachPost.bounty} Points</i>
+          </div>
+        </Link>
+
         <EachPost {...eachPost} />
-
       </li>
       {/* <div>{eachPost.time}</div> */}
 

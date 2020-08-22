@@ -16,20 +16,27 @@ const AllUsers = () => {
     const showUsers = () => {
         return users.map(user=> {
             return (
-                <Link key={user._id} to={`user/${user._id}`}>
-                    <li class="ppl">
-                        <img src={user.imageUrl}/>
-                        <h5>{user.name} {user.points}</h5>
-                    </li>
-                </Link>
+                <li class="ppl">
+
+                    <Link key={user._id} to={`user/${user._id}`}>
+                            <span>
+                                <img src={user.imageUrl}/>
+                                <h5>{user.name}</h5>
+                            </span>
+                            <h5>{user.points}</h5>
+                    </Link>
+
+                </li>
+
             )
         })
     }
 
     return (
         <div>
-            All Users?
-            {showUsers()}
+            <div className="allUsers">
+                {showUsers()}
+            </div>
         </div>
     );
 };

@@ -364,6 +364,16 @@ router.get('/get-other-user', (req, res, next) => {
     .catch(err => res.status(500).json(err))
 })
 
+
+router.get('/post', (req, res, next) => {
+  Post
+    .findById(req.query.id)
+    .then(post=> res.json({post}))
+    .catch(err => res.status(500).json(err))
+})
+
+
+
 function notify(message) {
   console.log('notify', process.env.SLACK, message)
   if(process.env.SLACK == 'yes'){
