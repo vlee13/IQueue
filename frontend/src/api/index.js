@@ -22,6 +22,12 @@ const actions = {
   getUser: async () => {
     return await API.get(`/user`, head())
   },
+  getOtherUser: async (id) => {
+    return await API.get(`/get-other-user?id=${id}`, head())
+  },
+  getAllUsers: async () => {
+    return API.get(`/get-all-users`, head())
+  },
   signUp: async (user) => {
     let res = await API.post('/signup', user, head())
     let token =  res?.data?.token
@@ -71,7 +77,7 @@ const actions = {
     return await API.post('/calendly', post, head())
   },
   getGif: async () => {
-    let res = await axios.get('https://api.giphy.com/v1/gifs/search?api_key=X2zaDYIPM87ua1kWDXdcQFfTQ1jPFfYA&q=funny&limit=25&offset=0&rating=g&lang=en')
+    let res = await axios.get('https://api.giphy.com/v1/gifs/search?api_key=X2zaDYIPM87ua1kWDXdcQFfTQ1jPFfYA&q=cat&limit=25&offset=0&rating=g&lang=en')
     let random = res?.data?.data[Math.floor(Math.random()*res?.data?.data?.length)]
     return random?.embed_url
   }

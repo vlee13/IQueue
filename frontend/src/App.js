@@ -4,8 +4,10 @@ import { Switch, Route, NavLink, useHistory } from "react-router-dom";
 import TheContext from './TheContext';
 import Home from "./components/home/Home";
 import NotFound from "./components/404/NotFound.js";
-// import SignUp from "./components/auth/SignUp";
-// import LogIn from "./components/auth/LogIn";
+
+import User from "./components/user/User"
+import AllUsers from "./components/user/AllUsers";
+
 import Profile from "./components/profile/Profile";
 import actions from "./api/index";
 import GoogleAuth from "./components/auth/GoogleAuth";
@@ -18,7 +20,7 @@ const App = () => {
 
   let [user, setUser] = useState(null)
   let [loading, setLoading] = useState(true)
-  let [countdown, setCountDown] = useState(12)
+  let [countdown, setCountDown] = useState(15)
   let [gif, setGif] = useState(null)
   useEffect(() => {
     async function getUser() {
@@ -65,7 +67,7 @@ const App = () => {
       <header>
         <div>{user?.email}</div>
         <div id="logo-container">
-          <img id="logo" src="./logo.webp"/>
+          <img id="logo" src="../logo.webp"/>
           IronQueue
         </div>
 
@@ -78,6 +80,7 @@ const App = () => {
           <Fragment>
             <NavLink to="/">Queue</NavLink>
             <NavLink to="/profile">Profile</NavLink>
+            <NavLink to="/all">Friends</NavLink>
 
           </Fragment>
         ) : (
@@ -91,16 +94,18 @@ const App = () => {
       </nav>
       <Switch>
         <Route exact path="/" render={(props) => <Home {...props} />} />
-        {/* <Route
-          exact
-          path="/sign-up"
-          render={(props) => <SignUp {...props} setUser={setUser} history={history}/>}
-        />
+
         <Route
           exact
-          path="/log-in"
-          render={(props) => <LogIn {...props} setUser={setUser} history={history} />}
-        /> */}
+          path="/all"
+          render={(props) => <AllUsers {...props} />}
+        />    
+
+        <Route
+          exact
+          path="/user/:id"
+          render={(props) => <User {...props} />}
+        />
 
         <Route
           exact

@@ -347,6 +347,23 @@ router.post('/calendly', verifyToken, (req, res, next) => {
 })
 
 
+
+router.get('/get-all-users', (req, res, next) => {
+  User
+    .find()
+    .then(users=> res.json({users}))
+    .catch(err => res.status(500).json(err))
+    
+})
+
+
+router.get('/get-other-user', (req, res, next) => {
+  User
+    .findById(req.query.id)
+    .then(user=> res.json({user}))
+    .catch(err => res.status(500).json(err))
+})
+
 function notify(message) {
   console.log('notify', process.env.SLACK, message)
   if(process.env.SLACK == 'yes'){
