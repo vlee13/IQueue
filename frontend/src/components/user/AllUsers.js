@@ -16,7 +16,7 @@ const AllUsers = () => {
     const showUsers = () => {
         return users.map(user=> {
             return (
-                <li class="ppl">
+                <li className="ppl" key={user._id}>
 
                     <Link key={user._id} to={`user/${user._id}`}>
                             <span>

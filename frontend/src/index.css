@@ -97,12 +97,14 @@ nav a:hover{
   background:#ccc;
 }
 
-.post .details{ 
+.details{ 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
+
+
 
 
 .ReactModal__Content{
@@ -143,6 +145,10 @@ nav a:hover{
 
 .zoom{
   padding: 20px;
+}
+.zoom a{
+  margin: 20px;
+
 }
 
 input[type="text"]{
@@ -234,7 +240,7 @@ iframe.giphy-embed {
   flex-direction: column;
 }
 
-.post a:hover, .ppl:hover{
+.post a:hover, .ppl:hover, .queue a:hover{
   /* background: #efefef; */
   text-decoration: underline;
 }
@@ -242,7 +248,8 @@ iframe.giphy-embed {
 .user{
   margin-top: 10px;
   display: flex;
-  height:800px;
+  justify-content:center; 
+  /* height:800px; */
 }
 
 
@@ -255,16 +262,17 @@ iframe.giphy-embed {
 iframe{
   position: relative;
 }
-.user a{
+.post a{
   font-size: 8px;
 }
-.user .calendly{
+.post .calendly{
   font-size: 8px;
   position: relative;
 }
-.user .calendly iframe{
+.post .calendly iframe{
   position: absolute;
   top: 0;
+  height: 800px;
 }
 
 .allUsers li{
@@ -281,7 +289,7 @@ iframe{
   text-decoration: none;
 }
 
-.post a {
+.post a, .queue a {
   display:flex;
   justify-content: center;
   align-items: center;
@@ -305,12 +313,17 @@ iframe{
   margin: 10px;
 }
 
-.user .details{
+.post .details{
   display: flex;
-  justify-content:center;
-  align-items: center;
+  justify-content:space-evenly;
+  align-items: space-evenly;
   flex-direction: column;
+  height: 200px;
 }
+
+
+
+
 
 @media (max-width:600px){
   .user{

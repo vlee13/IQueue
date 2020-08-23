@@ -66,14 +66,26 @@ function MyPosts({ posts, setPosts }) {
 }
 
 
+
+
 function EachMyPost({ post, posts, setPosts, i }) {
 
     let [resolve, setResolve] = useState(post.resolved)
     let [timeUp, setTimeup] = useState(false)
     let [time, setTime] = useState(0)
+    
+    let [countdown, setCountDown] = useState(5)
+    // let [countInt, setCountInt] = useState(5)
+
+    // const startCountDown = () => {
+    //     return setInterval(()=>setCountDown(--countdown), 1000)
+    // }
+
+
     let { user, setUser } = useContext(TheContext)
 
     const resolvePost = (val) => (event) => {
+
 
         setResolve(val)
         console.log(val)
@@ -86,6 +98,9 @@ function EachMyPost({ post, posts, setPosts, i }) {
                     newPosts[i] = res.data.posted
                     setPosts(newPosts)
                     setUser(res.data.helpee)
+                    // clearInterval(countInt)
+                    // setCountDown(5)
+
                     if (val)
                         NotificationManager.success(`You give ${post.bounty} points`, 'Issue Resolved')
                     else
@@ -95,8 +110,15 @@ function EachMyPost({ post, posts, setPosts, i }) {
                 setTimeup(true)
             }, 5000)
             setTime(t)
+
+            // let i = startCountDown()
+            // console.log('start',i)
+            // setCountInt(i)
         } else {
             clearTimeout(time)
+            // console.log('clear', countInt)
+            // clearInterval(countInt)
+            // setCountDown(5)
         }
 
     }
@@ -118,14 +140,13 @@ function EachMyPost({ post, posts, setPosts, i }) {
 
     }
 
-    console.log(resolve, post.helper)
 
     return (
         <li key={post._id}>
-            <div>{post.message}  <i>{post.bounty} Points</i> <i><img src={post.helper?.imageUrl} /> {post.helper?.name}</i> </div>
+            <div>{post.message}  <i>{post.bounty} Points {countdown}</i> <i><img src={post.helper?.imageUrl} /> {post.helper?.name}</i> </div>
             {post.helper ?
                 resolve ?
-                    <button disabled={timeUp} onClick={resolvePost(false)}>Undo<h2>🔴</h2></button>
+                    <button disabled={timeUp} onClick={resolvePost(false)}>Undo<h2>🔴 {countdown}</h2></button>
                     :
                     <button onClick={resolvePost(true)}>Resolve<h2>✅</h2></button>
                 : <button disabled={cancel} onClick={cancelPost}>Cancel</button>}
@@ -136,7 +157,7 @@ function EachMyPost({ post, posts, setPosts, i }) {
 
 function OthersPosts({ posts, setOtherPosts }) {
 
-    let rows = posts.map((post, j) => <OPost post={post} posts={posts} setOtherPosts={setOtherPosts} j={j}/>)
+    let rows = posts.map((post, j) => <OPost key={post._id} post={post} posts={posts} setOtherPosts={setOtherPosts} j={j}/>)
     rows.unshift(
         React.createElement('h2', { key: 'help me' }, 'Im helping:')
     )
@@ -296,7 +317,6 @@ function notifyMe(message) {
 
 
 function ResolvedPosts({ posts, setResolvedPosts }) {
-    console.log(posts)
     let rows = posts.map(post => {
         return (
             <li key={post._id}>

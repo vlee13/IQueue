@@ -1,0 +1,118 @@
+.countdown {
+	display: block;
+	text-indent: -100vw;
+	position:relative;
+    width: 2ch;
+    margin: 6px;
+	font-size: 18px;
+}
+
+.countdown::before {
+	content: '20';
+	position:absolute;
+	top:0;
+	left:0;
+	text-indent: 0;
+	animation: 21s countdown 1s forwards;
+}
+
+
+@keyframes countdown {
+
+
+    0% {
+		content: '19';
+	}
+	5%{
+		content: '18';
+	}
+	10% {
+		content: '17';
+	}
+	15%{
+		content: '16';
+	}
+	20% {
+		content: '15';
+	}
+	25%{
+		content: '14';
+	}
+	30% {
+		content: '13';
+	}
+	35%{
+		content: '12';
+	}
+	40% {
+		content: '11';
+		color:black;
+	}
+	45%{
+		content: '10';
+		color: green;
+
+	}
+	50% {
+		content: ' 9';
+		
+
+	}
+
+
+
+
+
+	55% {
+		content: ' 8';
+		color: yellow;
+	}
+	60%{
+		content: ' 7';
+	}
+	65% {
+		content: ' 6';
+		/* font-size: 20px; */
+		color: orange;
+	}
+	70%{
+		content: ' 5';
+	}
+	75% {
+		content: ' 4';
+	}
+	80%{
+		content: ' 3';
+	}
+	85% {
+		content: ' 2';
+	}
+	90%{
+		content: ' 1';
+	}
+	95% {
+		content: ' 0';
+		/* opacity: .1; */
+		color:red;
+	}
+	100% {
+		content: '🚀';
+		/* font-size: 24px; */
+		opacity: 1;
+		/* margin: -6px 0 0 0; */
+		/* margin: 120px 0; */
+
+	}
+}
+
+
+
+
+
+.loading h5{
+	display: flex;
+    flex-direction: column;
+	align-items: center;
+	z-index: 2;
+	position: relative;
+}

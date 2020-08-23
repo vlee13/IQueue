@@ -41,7 +41,7 @@ const App = () => {
 
     getUser();
     getGif()
-    count()
+    //count() This causes 18 rerenders 
   }, [])
 
 
@@ -62,10 +62,9 @@ const App = () => {
   const history = useHistory();
 
   return (
+    
     <TheContext.Provider value={{ history, user, setUser }}>
       
-      
-
     { user ?
       <header>
         <div>{user?.email}</div>
@@ -134,7 +133,7 @@ const App = () => {
                           
               <div className="loading">
                 <h1>Loading<span className="dots"><span>.</span><span>.</span><span>.</span></span></h1>
-                <h5>Waking up heroku may take up to <span>{countdown} seconds</span></h5>
+                <h5>Waking up heroku may take up to <span className="countdown"> {countdown} </span>  seconds</h5>
                 <iframe src={gif} width="100%" height="100%" frameBorder="0" className="giphy-embed" allowFullScreen></iframe>
               </div>
 

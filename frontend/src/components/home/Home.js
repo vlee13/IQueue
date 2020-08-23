@@ -5,49 +5,51 @@ import TheContext from '../../TheContext'
 import Scheduler from './Scheduler'
 
 import actions from '../../api/index'
-
-const EachPost = ( post ) => {
-  const {user} = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
-  let yours = post?.user._id === user?._id
-
-  const [modalIsOpen,setIsOpen] = React.useState(false);
+import EachPost from './EachPost'
 
 
-  let areYouTheHelper =  post?.helper?._id === user?._id
+// const EachPost = ( post ) => {
+//   const {user} = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
+//   let yours = post?.user._id === user?._id
 
-  let isThereAnotherHelper = post?.helper && !areYouTheHelper
-
-  let [helped, setHelped] = useState(areYouTheHelper || isThereAnotherHelper)
+//   const [modalIsOpen,setIsOpen] = React.useState(false);
 
 
-  const help = (val) => (event) => {
-    actions.helpUser({post, help:val}).then(res => {
-      if(res)  
-        setHelped(val)
+//   let areYouTheHelper =  post?.helper?._id === user?._id
+
+//   let isThereAnotherHelper = post?.helper && !areYouTheHelper
+
+//   let [helped, setHelped] = useState(areYouTheHelper || isThereAnotherHelper)
+
+
+//   const help = (val) => (event) => {
+//     actions.helpUser({post, help:val}).then(res => {
+//       if(res)  
+//         setHelped(val)
       
-      if(val)
-        setIsOpen(true);
+//       if(val)
+//         setIsOpen(true);
 
-    }).catch(err => console.error(err))
+//     }).catch(err => console.error(err))
 
-  }
+//   }
 
 
-  return (
-    <div>
+//   return (
+//     <div>
       
-      {helped? 
-        <button disabled={isThereAnotherHelper || yours || !user?._id} onClick={help(false)}>Nevermind <h2> 🛑</h2></button>
-        :
-        <button disabled={isThereAnotherHelper || yours || !user?._id} onClick={help(true)}>I got you <h2> 👍</h2></button>
+//       {helped? 
+//         <button disabled={isThereAnotherHelper || yours || !user?._id} onClick={help(false)}>Nevermind <h2> 🛑</h2></button>
+//         :
+//         <button disabled={isThereAnotherHelper || yours || !user?._id} onClick={help(true)}>I got you <h2> 👍</h2></button>
 
-      }
+//       }
 
-      <Scheduler modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} user={user} post={post}/>
+//       <Scheduler modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} user={user} post={post}/>
 
-    </div>
-  );
-};
+//     </div>
+//   );
+// };
 
 const Posts = () => {
   const [posts, setPosts] = useState([])
@@ -67,7 +69,7 @@ const Posts = () => {
   return posts.map(eachPost => (
     <Fragment key={eachPost._id}>
 
-      <li className="post">
+      <li className="queue">
 
         <Link to={`/user/${eachPost.user?._id}`}>
           <img src={eachPost.user?.imageUrl} />
@@ -89,7 +91,6 @@ const Posts = () => {
             <i>{eachPost.bounty} Points</i>
           </div>
         </Link>
-
         <EachPost {...eachPost} />
       </li>
       {/* <div>{eachPost.time}</div> */}
@@ -103,7 +104,6 @@ const Posts = () => {
 
 
 const Home = (props) => {
-
   const changeFruit = () => {
 
   }

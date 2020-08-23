@@ -14,12 +14,12 @@ const User = (props) => {
         }).catch(err => console.error(err))
     }, [])
 
-    const stopLoad = (e) => {
-        console.log('hide', c)
-        if (c)
-            setCalendlyLoaded(true)
-        setC(true)
-    }
+    // const stopLoad = (e) => {
+    //     console.log('hide', c)
+    //     if (c)
+    //         setCalendlyLoaded(true)
+    //     setC(true)
+    // }
 
     return (
         <div className="user">
@@ -32,7 +32,7 @@ const User = (props) => {
                 <h6>Updated at {moment(user.updatedAt).format('h:mm:ss a')}</h6>
                 {calendlyLoaded ? <a target="_blank" href={user?.calendly}>Visit Calendly</a> : null }
             </div>
-            <div className="calendly">
+            {/* <div className="calendly">
                 <div className="loading">
 
                     {!calendlyLoaded ?
@@ -48,7 +48,7 @@ const User = (props) => {
                     frameBorder="0"
                 ></iframe>
 
-            </div>
+            </div> */}
         </div>
     );
 };

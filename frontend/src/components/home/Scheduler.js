@@ -38,9 +38,10 @@ export default function Scheduler({modalIsOpen, setIsOpen, user, post}){
         >
 
           <div className="modal-header">
-            <div class="zoom">
+            <div className="zoom">
               <h2 ref={_subtitle => (subtitle = _subtitle)}>Please select a time to meet</h2>
-              <a href="https://zoom.us/j/761267530">https://zoom.us/j/761267530</a>
+              <a target="_blank" href="https://zoom.us/j/761267530">Alumni Zoom</a>
+              <a  target="_blank" href="https://ironhack.zoom.us/j/294504583?pwd=NkNxZHZ4MnR6cDUzOG40SUdtdFY4QT09">Class Zoom</a>
             </div>
             <button onClick={() => setIsOpen(false)}>close</button>
           </div>
