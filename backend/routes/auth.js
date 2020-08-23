@@ -368,6 +368,8 @@ router.get('/get-other-user', (req, res, next) => {
 router.get('/post', (req, res, next) => {
   Post
     .findById(req.query.id)
+    .populate('user')
+    .populate('helper')
     .then(post=> res.json({post}))
     .catch(err => res.status(500).json(err))
 })
