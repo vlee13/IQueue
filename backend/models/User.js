@@ -11,7 +11,8 @@ const userSchema = new Schema(
     posts: [{ type : Schema.Types.ObjectId, ref: 'Posts' }],
     points: {
       type: Number, default: Number(process.env.POINTS)
-    }
+    },
+    slackName: String
   },
   {
     timestamps: true,
