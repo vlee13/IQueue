@@ -388,8 +388,8 @@ router.post('/slack', (req, res,next) => {
       User.findByIdAndUpdate(user._id, { $inc: { points: -1 * posted.bounty } }, { new: true })
         .then(user => {
           console.log('user2',user)
-          //notify(`${user.name} added a new post.`)
-          res.status(200).send(`${user.name} added a new post.`)//.json({ posted, user })
+          notify(`${user.name} added a new post at https://iqueue.netlify.app/post/${posted._id}`)
+          res.status(200).send(`${user.name} added a new post at https://iqueue.netlify.app/post/${posted._id}`)//.json({ posted, user })
         }).catch(err => console.error(err))
 
     })
