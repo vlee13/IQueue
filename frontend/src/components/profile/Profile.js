@@ -56,8 +56,8 @@ const Profile = (props) => {
 }
 
 function MyPosts({ posts, setPosts }) {
-
-    let rows = posts.map((post, i) => <EachMyPost key={post._id} post={post} posts={posts} setPosts={setPosts} i={i} />)
+    console.log("my posts")
+    let rows = posts.map((post, i) => <EachMyPost key={post?._id} post={post} posts={posts} setPosts={setPosts} i={i} />)
 
     rows.unshift(
         React.createElement('h2', { key: 'help you' }, 'I need help with:')
@@ -75,24 +75,26 @@ function EachMyPost({ post, posts, setPosts, i }) {
     let [time, setTime] = useState(0)
     
     let [countdown, setCountDown] = useState(5)
-    // let [countInt, setCountInt] = useState(5)
+    let [countInt, setCountInt] = useState(null)
 
-    // const startCountDown = () => {
-    //     return setInterval(()=>setCountDown(--countdown), 1000)
-    // }
+    const startCountDown = () => {
+        return setInterval(()=>setCountDown(--countdown), 1000)
+    }
 
 
     let { user, setUser } = useContext(TheContext)
+    // let int = 'juice'
+    // console.log('int',int)
 
     const resolvePost = (val) => (event) => {
 
-
+   
         setResolve(val)
         console.log(val)
         if(val) {
             console.log('resolve')
-            let t = setTimeout(() => {
-                console.log('timouet fired')
+            let t = setTimeout((x) => { 
+                
                 actions.resolvePost({ post, resolved: val }).then(res => {
                     let newPosts = [...posts]
                     newPosts[i] = res.data.posted
@@ -108,16 +110,25 @@ function EachMyPost({ post, posts, setPosts, i }) {
                 }).catch(err => console.error(err))
 
                 setTimeup(true)
+                console.log('timouet fired')
+                // console.log(int)
+                // clearInterval(int)
+                // setCountDown(null)
+
             }, 5000)
             setTime(t)
 
-            // let i = startCountDown()
-            // console.log('start',i)
-            // setCountInt(i)
+            // int = startCountDown()
+            // console.log('start',int)
+            //setCountInt(i)
         } else {
             clearTimeout(time)
-            // console.log('clear', countInt)
-            // clearInterval(countInt)
+            // console.log('clear', int)
+            // //BUG 
+            // for(let i=0; i<100; i++){
+            //     clearInterval(i)
+            // }
+            // clearInterval(int)
             // setCountDown(5)
         }
 
@@ -143,10 +154,10 @@ function EachMyPost({ post, posts, setPosts, i }) {
 
     return (
         <li key={post._id}>
-            <div>{post.message}  <i>{post.bounty} Points {countdown}</i> <i><img src={post.helper?.imageUrl} /> {post.helper?.name}</i> </div>
+            <div>{post.message}  <i>{post.bounty} Points</i> <i><img src={post.helper?.imageUrl} /> {post.helper?.name}</i> </div>
             {post.helper ?
                 resolve ?
-                    <button disabled={timeUp} onClick={resolvePost(false)}>Undo<h2>🔴 {countdown}</h2></button>
+                    <button disabled={timeUp} onClick={resolvePost(false)}>Undo<h2>🔴</h2></button>
                     :
                     <button onClick={resolvePost(true)}>Resolve<h2>✅</h2></button>
                 : <button disabled={cancel} onClick={cancelPost}>Cancel</button>}

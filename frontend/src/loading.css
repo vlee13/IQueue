@@ -50,7 +50,7 @@
 	}
 	45%{
 		content: '10';
-		color: green;
+		/* color: green; */
 
 	}
 	50% {
@@ -65,7 +65,7 @@
 
 	55% {
 		content: ' 8';
-		color: yellow;
+		/* color: yellow; */
 	}
 	60%{
 		content: ' 7';
@@ -73,7 +73,7 @@
 	65% {
 		content: ' 6';
 		/* font-size: 20px; */
-		color: orange;
+		/* color: orange; */
 	}
 	70%{
 		content: ' 5';
@@ -93,7 +93,7 @@
 	95% {
 		content: ' 0';
 		/* opacity: .1; */
-		color:red;
+		/* color:red; */
 	}
 	100% {
 		content: '🚀';

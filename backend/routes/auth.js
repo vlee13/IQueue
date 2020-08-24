@@ -132,8 +132,8 @@ router.post('/help', verifyToken, (req, res, next) => {
 
 
       //Find Total number of posts being helped by user 
-      Post.find({ helper: authData.user._id }).then(postsBeingHelped => {
-        console.log(postsBeingHelped, 'postsBeingHelped')
+      Post.find({ helper: authData.user._id, resolved:false }).then(postsBeingHelped => {
+        console.log(postsBeingHelped, 'postsBeingHelped', postsBeingHelped?.length, 'kangaroo')
 
         //Dont allow exceeding the limit
         if (help && postsBeingHelped.length >= Number(process.env.HELP_LIMIT)) {

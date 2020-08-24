@@ -297,8 +297,8 @@ iframe{
   text-decoration: none;
 }
 
-.post img:hover{
-  opacity: .5;
+.queue img:hover{
+  opacity: .75;
 }
 
 .allUsers li img{
