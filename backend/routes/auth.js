@@ -379,7 +379,7 @@ router.post('/slack', (req, res,next) => {
   console.log(req.user, req.query, req.token, req.body, 'iqqqq', req.body.user_name)
   //res.json({cool:'beans'})
 
-  User.findOne({slackName:req.user_name}).then(user => {
+  User.findOne({slackName:req.body.user_name}).then(user => {
     console.log('user',user)
     Post
     .create({message:req.body.text, user: user._id})
@@ -389,7 +389,7 @@ router.post('/slack', (req, res,next) => {
         .then(user => {
           console.log('user2',user)
           //notify(`${user.name} added a new post.`)
-          res.status(200).json({ posted, user })
+          res.status(200).send(`${user.name} added a new post.`)//.json({ posted, user })
         }).catch(err => console.error(err))
 
     })
