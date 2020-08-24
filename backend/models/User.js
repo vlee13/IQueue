@@ -12,7 +12,7 @@ const userSchema = new Schema(
     points: {
       type: Number, default: Number(process.env.POINTS)
     },
-    slackName: String
+    slack: { type: String, default: "Click here to set your slack name!"},
   },
   {
     timestamps: true,

@@ -265,6 +265,10 @@ const Welcome = () => {
     let [calendly, setCalendly] = useState(user?.calendly)
     let [edit, setEdit] = useState(true)
 
+    let [slack, setSlack] = useState(user?.slack)
+    let [editSlack, setEditSlack] = useState(true)
+
+
     const submitCalendly = (e) => {
         e.preventDefault()
         actions.updateCalendly({calendly}).then(res => {
@@ -275,6 +279,15 @@ const Welcome = () => {
         }).catch(err => console.error(err))
     } 
     
+    const submitSlack = (e) => {
+        e.preventDefault()
+        actions.updateSlack({slack}).then(res => {
+            console.log(res)
+            NotificationManager.success(`You've updated your slack username`)
+            setEditSlack(true)
+            setUser(res.data.user)
+        }).catch(err => console.error(err))
+    } 
 
     if (!user) {
         return <Redirect to='/' />;
@@ -293,6 +306,11 @@ const Welcome = () => {
         <form id="cal" onClick={()=>{ setEdit(false);}} onSubmit={submitCalendly}>
             <input disabled={edit} value={calendly} type="text" onChange={(e) => setCalendly(e.target.value)} />    
             <button hidden={edit} >Save</button>
+        </form>
+
+        <form id="cal" onClick={()=>{ setEditSlack(false);}} onSubmit={submitSlack}>
+            <input disabled={editSlack} value={slack} type="text" onChange={(e) => setSlack(e.target.value)} />    
+            <button hidden={editSlack} >Save</button>
         </form>
         </Fragment>
     )

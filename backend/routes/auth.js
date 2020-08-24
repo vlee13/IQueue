@@ -348,6 +348,23 @@ router.post('/calendly', verifyToken, (req, res, next) => {
 
 
 
+router.post('/updateSlack', verifyToken, (req, res, next) => {
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if (err) {
+      res.status(403).json(err);
+    } else {
+      User
+        .findByIdAndUpdate(authData.user._id, req.body, { upsert: true, new: true })
+        .then(user => {
+          console.log(user, 'update slack')
+          res.status(200).json({ user })
+        }).catch(err => res.status(500).json(err))
+    }
+  })
+})
+
+
+
 router.get('/get-all-users', (req, res, next) => {
   User
     .find()
@@ -376,8 +393,12 @@ router.get('/post', (req, res, next) => {
 
 
 router.post('/slack', (req, res,next) => {
-  console.log(req.user, req.query, req.token, req.body, 'iqqqq', req.body.user_name)
-  //res.json({cool:'beans'})
+  console.log('slack iqqqq', req.body.user_name)
+
+  if(!req.body.user_name) {
+    return res.status(500).json(req.body)
+  }
+
 
   User.findOne({slackName:req.body.user_name}).then(user => {
     console.log('user',user)

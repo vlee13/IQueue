@@ -79,6 +79,9 @@ const actions = {
   updateCalendly: async(post) => {
     return await API.post('/calendly', post, head())
   },
+  updateSlack:async(post) => {
+    return await API.post('/updateSlack', post, head())
+  }, 
   getGif: async (q) => {
     let res = await axios.get(`https://api.giphy.com/v1/gifs/search?api_key=X2zaDYIPM87ua1kWDXdcQFfTQ1jPFfYA&q=${q}&limit=25&offset=0&rating=g&lang=en`)
     let random = res?.data?.data[Math.floor(Math.random()*res?.data?.data?.length)]
