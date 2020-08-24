@@ -400,8 +400,11 @@ router.post('/slack', (req, res,next) => {
   }
 
 
-  User.findOne({slackName:req.body.user_name}).then(user => {
+  User.findOne({slack:req.body.user_name}).then(user => {
     console.log('user',user)
+    if(!user){
+      res.status(401).send(`No user by name ${req.body.user_name}.  Update on iq`)
+    }
     Post
     .create({message:req.body.text, user: user._id})
     .then(posted => {
