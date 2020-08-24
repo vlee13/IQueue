@@ -376,17 +376,19 @@ router.get('/post', (req, res, next) => {
 
 
 router.post('/slack', (req, res,next) => {
-  console.log(req.user, req.query, req.token, req.body, 'iqqqq')
+  console.log(req.user, req.query, req.token, req.body, 'iqqqq', req.user_name)
   //res.json({cool:'beans'})
 
   User.findOne({slackName:req.user_name}).then(user => {
+    console.log('user',user)
     Post
     .create({message:req.body.text, user: user._id})
     .then(posted => {
 
       User.findByIdAndUpdate(user._id, { $inc: { points: -1 * posted.bounty } }, { new: true })
         .then(user => {
-          notify(`${authData.user.name} added a new post.`)
+          console.log('user2',user)
+          //notify(`${user.name} added a new post.`)
           res.status(200).json({ posted, user })
         }).catch(err => console.error(err))
 
