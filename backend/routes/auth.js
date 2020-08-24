@@ -375,6 +375,11 @@ router.get('/post', (req, res, next) => {
 })
 
 
+router.post('/slack', (req, res,next) => {
+  console.log(req.user, req.query, req.body, 'iq')
+  res.json({cool:'beans'})
+})
+
 
 function notify(message) {
   console.log('notify', process.env.SLACK, message)
