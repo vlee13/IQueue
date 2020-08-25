@@ -423,12 +423,47 @@ router.post('/slack', (req, res,next) => {
     })
     .catch(err => res.status(500).json(err))
   })
-
-
-
-
-
 })
+
+
+
+
+
+/***Identical */
+
+router.post('/saveGif', verifyToken, (req, res, next) => {
+  console.log('gif', req.body)
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if (err) {
+      res.status(403).json(err);
+    } else {
+      User
+        .findByIdAndUpdate(authData.user._id, req.body, { upsert: true, new: true })
+        .then(user => {
+          console.log(user, 'update slack')
+          res.status(200).json({ user })
+        }).catch(err => res.status(500).json(err))
+    }
+  })
+})
+
+
+router.post('/saveDescription', verifyToken, (req, res, next) => {
+  console.log('des', req.body)
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if (err) {
+      res.status(403).json(err);
+    } else {
+      User
+        .findByIdAndUpdate(authData.user._id, req.body, { upsert: true, new: true })
+        .then(user => {
+          console.log(user, 'update slack')
+          res.status(200).json({ user })
+        }).catch(err => res.status(500).json(err))
+    }
+  })
+})
+/***Identical */
 
 
 function notify(message) {

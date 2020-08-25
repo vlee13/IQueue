@@ -7,10 +7,12 @@ const AllUsers = () => {
     const [users, setUsers] = useState([])
 
     useEffect(() => {
+        
         actions.getAllUsers().then(res => {
             console.log(res)
             setUsers(res?.data?.users)
         }).catch(err => console.error(err))
+
     }, [])
 
     const showUsers = () => {

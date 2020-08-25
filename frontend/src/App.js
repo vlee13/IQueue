@@ -106,7 +106,7 @@ const App = () => {
         <Route
           exact
           path="/user/:id"
-          render={(props) => <User {...props} />}
+          render={(props) => <User {...props} {...user}/>}
         />
         <Route
           exact

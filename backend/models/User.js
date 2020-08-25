@@ -13,6 +13,8 @@ const userSchema = new Schema(
       type: Number, default: Number(process.env.POINTS)
     },
     slack: { type: String, default: "Click here to set your slack name! Then use /q command in slack." },
+    description: String, 
+    giphy: String,
   },
   {
     timestamps: true,

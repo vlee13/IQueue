@@ -67,14 +67,13 @@ const Home = (props) => {
   const [all, setAll] = useState([])
 
   const filterPosts = (posts, filter) => {
-    console.log(posts, filter)
     if(filter === 'all'){
       setPosts(posts?.reverse())
     } else {
-      let hour = 60 * 60 * 1000;
+      let hours = 60 * 60 * 1000 * Number(process.env.REACT_APP_HOURS);
+      console.log(hours, ' milliseconds')
       let p = posts?.filter(each => { 
-        console.log(moment(new Date()) - moment(each.createdAt) < hour)
-        return  moment(new Date()) - moment(each.createdAt) < hour ||  moment(new Date()) - moment(each.updatedAt) < hour 
+        return  moment(new Date()) - moment(each.createdAt) < hours ||  moment(new Date()) - moment(each.updatedAt) < hours 
       })
       setPosts(p.reverse())
     }
@@ -84,14 +83,12 @@ const Home = (props) => {
   useEffect(() => { 
     actions.getAllPosts()
       .then(res => {
-        console.log(res.data)
         setAll(res.data)
         filterPosts(res.data)
       })
       .catch(err => console.error(err))      
   }, [])
 
-  console.log(posts)
   return (
     <div>
       <Posts posts={posts} />

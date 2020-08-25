@@ -251,6 +251,8 @@ const AddPost = ({ history, posts }) => {
                 <button disabled={outOfPoints}>Add</button>
 
             </form>
+
+
         </Fragment>
 
     )
