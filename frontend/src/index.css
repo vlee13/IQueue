@@ -321,8 +321,10 @@ iframe{
   height: 200px;
 }
 
-
-
+.user .details iframe{
+  pointer-events: none;
+  border: none;
+}
 
 
 
