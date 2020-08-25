@@ -101,7 +101,11 @@ router.post('/new-post', verifyToken, (req, res, next) => {
       res.status(403).json(err);
     } else {
       console.log(req.body, 'made it here', authData.user)
-      //res.status(200).json(authData.user)
+      
+      //I should be finding the user first and then seeing if they have enough money, 
+      //then create the post,
+      //then update the user
+
       let post = req.body
       post.user = authData.user._id
       Post

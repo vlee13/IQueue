@@ -6,65 +6,21 @@ import Scheduler from './Scheduler'
 
 import actions from '../../api/index'
 import EachPost from './EachPost'
+import moment from 'moment'
 
 
-// const EachPost = ( post ) => {
-//   const {user} = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
-//   let yours = post?.user._id === user?._id
-
-//   const [modalIsOpen,setIsOpen] = React.useState(false);
 
 
-//   let areYouTheHelper =  post?.helper?._id === user?._id
-
-//   let isThereAnotherHelper = post?.helper && !areYouTheHelper
-
-//   let [helped, setHelped] = useState(areYouTheHelper || isThereAnotherHelper)
 
 
-//   const help = (val) => (event) => {
-//     actions.helpUser({post, help:val}).then(res => {
-//       if(res)  
-//         setHelped(val)
-      
-//       if(val)
-//         setIsOpen(true);
+const Posts = ({posts}) => {
 
-//     }).catch(err => console.error(err))
-
-//   }
-
-
-//   return (
-//     <div>
-      
-//       {helped? 
-//         <button disabled={isThereAnotherHelper || yours || !user?._id} onClick={help(false)}>Nevermind <h2> 🛑</h2></button>
-//         :
-//         <button disabled={isThereAnotherHelper || yours || !user?._id} onClick={help(true)}>I got you <h2> 👍</h2></button>
-
-//       }
-
-//       <Scheduler modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} user={user} post={post}/>
-
-//     </div>
-//   );
-// };
-
-const Posts = () => {
-  const [posts, setPosts] = useState([])
-  useEffect(() => { 
-    actions.getAllPosts()
-      .then(posts => {
-        setPosts(posts.data.reverse())
-      })
-      .catch(err => console.error(err))      
-  }, [])
-
-
+  console.log(posts)
   if(posts.length === 0){
     return <div className="loading"><i><h2>There are no pending posts in the queue. Great job!  Click on Profile to add a new one.</h2></i></div>
   }
+
+  console.log(posts)
 
   return posts.map(eachPost => (
     <Fragment key={eachPost._id}>
@@ -88,12 +44,14 @@ const Posts = () => {
 
             }
             <div>"{eachPost.message}"</div>
-            <i>{eachPost.bounty} Points</i>
+            <i>{eachPost.bounty} Points!</i>
+            <i>Created: {moment(eachPost?.createdAt).fromNow('s')}</i>
+            <i>Updated: {moment(eachPost?.updatedAt).fromNow('s')}</i>
+
           </div>
         </Link>
         <EachPost {...eachPost} />
       </li>
-      {/* <div>{eachPost.time}</div> */}
 
     </Fragment>
 
@@ -104,14 +62,40 @@ const Posts = () => {
 
 
 const Home = (props) => {
-  const changeFruit = () => {
 
+  const [posts, setPosts] = useState([])
+  const [all, setAll] = useState([])
+
+  const filterPosts = (posts, filter) => {
+    console.log(posts, filter)
+    if(filter === 'all'){
+      setPosts(posts?.reverse())
+    } else {
+      let hour = 60 * 60 * 1000;
+      let p = posts?.filter(each => { 
+        console.log(moment(new Date()) - moment(each.createdAt) < hour)
+        return  moment(new Date()) - moment(each.createdAt) < hour ||  moment(new Date()) - moment(each.updatedAt) < hour 
+      })
+      setPosts(p.reverse())
+    }
   }
+  
 
+  useEffect(() => { 
+    actions.getAllPosts()
+      .then(res => {
+        console.log(res.data)
+        setAll(res.data)
+        filterPosts(res.data)
+      })
+      .catch(err => console.error(err))      
+  }, [])
+
+  console.log(posts)
   return (
     <div>
-      <Posts />
-
+      <Posts posts={posts} />
+      <button onClick={() => filterPosts(all, 'all')}>Older Posts</button>
     </div>
   )
 }
