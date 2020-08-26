@@ -27,19 +27,18 @@ const Post = (props) => {
 
     return (
         <div className="post">
-
             <div className="details">
-            { post.helper ? 
-              post.resolved ? 
-                <i>{post.user?.name}'s issue was resolved by {post.helper?.name} </i>
+            { post?.helper ? 
+              post?.resolved ? 
+                <i>{post?.user?.name}'s issue was resolved by {post?.helper?.name} </i>
                 : 
-                <i>{post.user?.name} is being helped by {post.helper?.name} </i>            
+                <i>{post?.user?.name} is being helped by {post?.helper?.name} </i>            
               : 
-              <i>{post.user?.name} needs your help</i>
+              <i>{post?.user?.name} needs your help</i>
 
             }
-            <div>"{post.message}"</div>
-            <i>{post.bounty} Points</i>
+            <div>"{post?.message}"</div>
+            <i>{post?.bounty} Points</i>
 
             <EachPost {...post} />
 
@@ -51,7 +50,7 @@ const Post = (props) => {
                 <div className="loading">
 
                     {!calendlyLoaded ?
-                        <h1>Loading {post.user?.name} Calendly<span className="dots"><span>.</span><span>.</span><span>.</span></span></h1>
+                        <h1>Loading {post?.user?.name} Calendly<span className="dots"><span>.</span><span>.</span><span>.</span></span></h1>
                         : null}
                 </div>
 

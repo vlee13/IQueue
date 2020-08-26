@@ -47,7 +47,7 @@ const EachPost = ( post ) => {
     return (
       <div>
 
-        { post._id ?  //check if post 
+        { post?._id ?  //check if post 
             areTheyBeingHelped ?  //check if being helped
             <button disabled={isThereAnotherHelper || yours || !user?._id || loading} onClick={help(false)}>Nevermind <h2> 🛑</h2></button>
             :

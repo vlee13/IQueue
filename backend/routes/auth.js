@@ -111,10 +111,10 @@ router.post('/new-post', verifyToken, (req, res, next) => {
       Post
         .create(post)
         .then(posted => {
-
+          console.log('kiwi',posted)
           User.findByIdAndUpdate(authData.user._id, { $inc: { points: -1 * posted.bounty } }, { new: true })
             .then(user => {
-              notify(`${authData.user.name} added a new post.`)
+              notify(`${authData.user.name} added a new post. https://iqueue.netlify.app/post/${posted._id} <https://someurl|like this>`)
               res.status(200).json({ posted, user })
             }).catch(err => console.error(err))
 
@@ -379,10 +379,27 @@ router.get('/get-all-users', (req, res, next) => {
 
 
 router.get('/get-other-user', (req, res, next) => {
-  User
-    .findById(req.query.id)
-    .then(user=> res.json({user}))
-    .catch(err => res.status(500).json(err))
+
+  Post //Not being used 
+    .find({user:req.query.id})
+    .populate('helper') //not being used 
+    .then(posts => {
+      User
+        .findById(req.query.id)
+        //.populate('posts') isn't full 
+        .then(user=> { 
+          console.log(user, 'crap')
+          res.json({user, posts})
+        })
+        .catch(err => { 
+          console.log(err, 'errr')
+          res.status(500).json(err)
+        })
+      }).catch(err => { 
+      console.log(err, 'errr')
+      res.status(500).json(err)
+  })
+
 })
 
 

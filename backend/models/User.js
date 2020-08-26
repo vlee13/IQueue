@@ -8,7 +8,7 @@ const userSchema = new Schema(
     googleId: String,
     imageUrl: { type: String, default: "https://st.depositphotos.com/1732591/2687/v/450/depositphotos_26877113-stock-illustration-dog-face.jpg"},
     calendly: { type: String, default: "https://calendly.com/ Click here to set your calendly!"},
-    posts: [{ type : Schema.Types.ObjectId, ref: 'Posts' }],
+    posts: [{ type : Schema.Types.ObjectId, ref: 'Post' }],
     points: {
       type: Number, default: Number(process.env.POINTS)
     },

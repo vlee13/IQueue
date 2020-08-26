@@ -7,21 +7,22 @@ import actions from '../../api'
 const User = (props) => {
     const [edit, setEdit] = useState(false)
     const [user, setUser] = useState({})
-    
     const [giphy, setGiphy] = useState()
     const [description, setDescription] = useState('')
-
     const [editDes, setEditDes] = useState(true)
-
     const you = props?._id === user?._id
+
 
     useEffect(() => {
         actions.getOtherUser(props.match.params.id).then(res => {
+            console.log(res)
             setUser(res?.data?.user)
             setDescription(res?.data?.user?.description)
             setGiphy(res?.data?.user?.giphy)
-
         }).catch(err => console.error(err))
+
+
+        
     }, [])
 
 
@@ -52,12 +53,12 @@ const User = (props) => {
     return (
         <div className="user">
             <div className="details">
-                <h2>{user.name}</h2>
-                <img src={user.imageUrl} />
-                <h3>{user.points} Points</h3>
-                <h5>{user.email}</h5>
-                <h6>Created at  {moment(user.createdAt).format('h:mm:ss a')}</h6>
-                <h6>Updated at {moment(user.updatedAt).format('h:mm:ss a')}</h6>
+                <h2>{user?.name}</h2>
+                <img src={user?.imageUrl} />
+                <h3>{user?.points} Points</h3>
+                <h5>{user?.email}</h5>
+                <h6>Created at  {moment(user?.createdAt).format('h:mm:ss a')}</h6>
+                <h6>Updated at {moment(user?.updatedAt).format('h:mm:ss a')}</h6>
                 
                 {you ? 
                 <form onClick={()=>{ setEditDes(false);}} onSubmit={submitDes}>

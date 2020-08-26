@@ -45,8 +45,8 @@ const Posts = ({posts}) => {
             }
             <div>"{eachPost.message}"</div>
             <i>{eachPost.bounty} Points!</i>
-            <i>Created: {moment(eachPost?.createdAt).fromNow('s')}</i>
-            <i>Updated: {moment(eachPost?.updatedAt).fromNow('s')}</i>
+            <i>Created: {moment(eachPost?.createdAt).fromNow('s')} ago</i>
+            <i>Updated: {moment(eachPost?.updatedAt).fromNow('s')} ago</i>
 
           </div>
         </Link>
