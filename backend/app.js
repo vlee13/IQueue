@@ -27,7 +27,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000", "https://clientnetlify.netlify.app", "https://iqueue.netlify.app"] //Swap this with the client url 
+    origin: ["http://localhost:3000", "https://clientnetlify.netlify.app", "https://iqueue.netlify.app", "http://192.168.0.221:3000"] //Swap this with the client url 
   })
 );
 
