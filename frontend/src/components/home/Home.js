@@ -71,7 +71,7 @@ const Home = (props) => {
     if(filter === 'all'){
       setPosts(posts?.reverse())
     } else {
-      let hours = 60 * 60 * 1000 * Number(process.env.REACT_APP_HOURS);
+      let hours = 60 * 60 * 1000 * Number( (process.env.REACT_APP_HOURS || 24) );
       console.log(hours, ' milliseconds')
       let p = posts?.filter(each => { 
         return  moment(new Date()) - moment(each.createdAt) < hours ||  moment(new Date()) - moment(each.updatedAt) < hours 
