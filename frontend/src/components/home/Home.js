@@ -26,7 +26,7 @@ const Posts = ({posts}) => {
     <Fragment key={eachPost._id}>
 
       <li className="queue">
-
+        
         <Link to={`/user/${eachPost.user?._id}`}>
           <img src={eachPost.user?.imageUrl} />
         </Link>
@@ -34,6 +34,11 @@ const Posts = ({posts}) => {
         <Link to={`/post/${eachPost._id}`}>
 
           <div className="details">
+
+            <h4>{eachPost.message}</h4>
+            <i>{eachPost.bounty} Points!</i>
+            <i>Created: {moment(eachPost?.createdAt).fromNow('s')} ago</i>
+            <i>Updated: {moment(eachPost?.updatedAt).fromNow('s')} ago</i>
             { eachPost.helper ? 
               eachPost.resolved ? 
                 <i>{eachPost.user?.name}'s issue was resolved by {eachPost.helper?.name} </i>
@@ -43,10 +48,6 @@ const Posts = ({posts}) => {
               <i>{eachPost.user?.name} needs your help</i>
 
             }
-            <div>"{eachPost.message}"</div>
-            <i>{eachPost.bounty} Points!</i>
-            <i>Created: {moment(eachPost?.createdAt).fromNow('s')} ago</i>
-            <i>Updated: {moment(eachPost?.updatedAt).fromNow('s')} ago</i>
 
           </div>
         </Link>
@@ -92,7 +93,9 @@ const Home = (props) => {
   return (
     <div>
       <Posts posts={posts} />
-      <button onClick={() => filterPosts(all, 'all')}>Older Posts</button>
+      <div className="more">
+        <button id="morePosts" onClick={() => filterPosts(all, 'all')}>Older Posts</button>
+      </div>
     </div>
   )
 }

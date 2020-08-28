@@ -45,22 +45,16 @@ const EachPost = ( post ) => {
     // useEffect(() => {
     // },[helped]) 
     return (
-      <div>
+      <div className="eachPost">
 
         { post?._id ?  //check if post 
             areTheyBeingHelped ?  //check if being helped
-            <button disabled={isThereAnotherHelper || yours || !user?._id || loading} onClick={help(false)}>Nevermind <h2> 🛑</h2></button>
+            <button disabled={isThereAnotherHelper || yours || !user?._id || loading} onClick={help(false)}><span>🛑</span></button>
             :
-            <button disabled={isThereAnotherHelper || yours || !user?._id || loading} onClick={help(true)}>I got you <h2> 👍</h2></button>
+            <button disabled={isThereAnotherHelper || yours || !user?._id || loading} onClick={help(true)}><span>👍</span></button>
             
          : 'no post' }
-        {/* {helped? 
-          <button disabled={isThereAnotherHelper || yours || !user?._id} onClick={help(false)}>Nevermind <h2> 🛑</h2></button>
-          :
-          <button disabled={isThereAnotherHelper || yours || !user?._id} onClick={help(true)}>I got you <h2> 👍</h2></button>
-  
-        } */}
-  
+       
         <Scheduler modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} user={user} post={post}/>
   
       </div>

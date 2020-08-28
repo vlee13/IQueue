@@ -1,3 +1,6 @@
+
+
+
 *{
   transition:all .2s; 
 }
@@ -15,13 +18,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-li {
+li{
   display: flex;
   justify-content:space-between;
+  align-items: center;
   padding: 20px;
-  border: 1px solid #eee
+  border: 1px solid #eee;
 }
 
+
+li.queue{
+  border-radius: 0 0 25px 0;
+  /* pointer-events: none; */
+}
+
+/*  */
+
+li.queue .details {
+}
+li.queue:hover{
+  border-radius: 0 25px 0px 0;
+}
+li.queue *:hover{
+  pointer-events: auto;
+}
 
 #askForHelp {
   display: flex;
@@ -46,7 +66,7 @@ li {
 }
 
 i{
-  font-size: 10px;
+  font-size: 8px;
   display:block;
   margin-top: 5px;
   justify-content: flex-start;
@@ -73,7 +93,9 @@ nav{
   display:flex;
   align-items: center;
   justify-content:space-evenly;
-  height: 100px;
+  height: 50px;
+  position: relative;
+  z-index: 10;
 }
 
 
@@ -83,7 +105,7 @@ nav a:not(#logOut) {
   color:#008eff;
   font-size: 24px;
   text-decoration:none;
-  border: 1px solid black;
+  border: 1px solid white;
   height:100%;
   width:100%;
   display:flex;
@@ -97,11 +119,129 @@ nav a:hover{
   background:#ccc;
 }
 
-.details{ 
+li.queue  {
+  display: flex;
+}
+
+li.queue * {
+}
+
+
+li.queue .details {
   display: flex;
   flex-direction: column;
+  width:100%;
+  text-align: center;
+  justify-content: space-between;
+    text-align: center;
+    /* height: 100px; */
+}
+
+li.queue .details i{
+  text-align: center;
+  display:block;
+
+}
+li.queue .details h4 {
+  margin:0;
+}
+.user .details{ 
+  display: flex;
   justify-content: space-between;
   align-items: center;
+  align-items: flex-start;
+}
+.user .details section{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 50vw;
+}
+
+.user .details section div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.more { 
+  display:flex;
+  justify-content:center;
+  align-items: center;
+}
+
+#morePosts {
+  background:#e77d25;
+  padding: 20px;
+  margin: 40px;
+  font-size:16px;
+  border: none;
+  display:flex;
+  justify-content:center;
+  color: white;
+  border-radius: 25px 0 25px 0;
+}
+
+button:hover{
+  box-shadow: 1px 1px 1px #333;
+  /* border-radius: 0px 25px 0px 25px; */
+
+}
+
+button:focus {
+  outline:0;
+}
+
+button:active{
+  color: black;
+  box-shadow: 1px 1px 1px #333 inset;
+
+}
+
+
+
+li.queue button{
+  /* background:#008eff; */
+  width: 100px;
+  height:100px;
+  border: none;
+  border-radius: 25px 0 25px 0;
+  border-radius: 0;
+
+  /* background:rgba(231, 125, 28, 0.7); */
+  /* background:rgb(37 243 122 / .7); */
+  font-size: 24px;
+}
+
+
+
+.queue button:active span{
+  /* display:none; */
+}
+.queue button:active{
+  /* border-radius: 0px 25px 0px 25px; */
+  /* background:rgb(37 243 122 / .1); */
+
+  /* transform:rotateY(180deg); */
+}
+
+
+#morePosts:active{
+  /* transform:rotateY(180deg) */
+
+  /* border-radius: 0px 25px 0px 25px; */
+
+}
+button#morePosts:hover{
+  border-radius: 0px 25px 0px 25px;
+  text-decoration: underline;
+}
+
+.queue button:hover{
+  border-radius: 0px 25px 0px 25px;
+  border-radius: 25px;
+
 }
 
 
@@ -198,9 +338,7 @@ header > * {
     align-items: center;
 
 }
-#logOut{
-  text-align: right;
-}
+
 
 
 
@@ -249,9 +387,16 @@ iframe.giphy-embed {
   margin-top: 10px;
   display: flex;
   justify-content:center; 
+
   /* height:800px; */
 }
-
+.user .details > section *{
+  margin:5px;
+  /* width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center; */
+}
 
 .loadCalendly{
   position: relative;
@@ -297,8 +442,11 @@ iframe{
   text-decoration: none;
 }
 
-.queue img:hover{
-  opacity: .75;
+li.queue img:hover{
+  opacity: .95;
+  border-radius:25px;
+  box-shadow: 1px 1px 1px #333;
+
 }
 
 .allUsers li img{
@@ -326,15 +474,55 @@ iframe{
   border: none;
 }
 
+#slack-container a {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#logout-container a {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+#slackLogo, #logout {
+  height: 50px;
+}
+
+#slack-container label, #logout-container label{
+  font-size: 9px;
+}
 
 
 
-@media (max-width:600px){
+
+@media (max-width:450px){
+  header {
+    border-bottom: 1px solid #efefef;;
+  }
   .user{
     flex-direction: column;
-    height:1500px;
+    /* height:1500px; */
+  }
+  .user .details{
+    flex-direction: column;
+  }
+  .user .details section {
+    width: 100vw;
   }
   body{
     padding: 5px;
   }
+  nav {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+  }
+  li {
+    padding: 3px;
+  }
+  
 }
+

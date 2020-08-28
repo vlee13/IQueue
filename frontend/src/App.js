@@ -67,13 +67,26 @@ const App = () => {
       
     { user ?
       <header>
-        <div>{user?.email}</div>
+        <div id="slack-container">
+          <a href="https://join.slack.com/t/iq-fi09620/shared_invite/zt-gv19tftc-KCm05Njhgx_17Tla_eIDGQ">
+            <img id="slackLogo" src="../slack.jpg" /> 
+            {/* <label>Workspace</label> */}
+          </a>
+        </div>
         <div id="logo-container">
           <img id="logo" src="../logo.webp"/>
-          IronQueue
+          
+        </div>
+        <div id="logout-container">
+        {/* <div>{user?.email}</div> */}
+          <NavLink id="logOut" onClick={logOut} to="/">
+            <img id="logout" src="../logOutt.png"/>
+            {/* <label>Log Out</label> */}
+          </NavLink>
         </div>
 
-        <NavLink id="logOut" onClick={logOut} to="/">Log Out</NavLink>
+
+
       </header> 
     : null }
       <nav>

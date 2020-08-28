@@ -53,22 +53,25 @@ const User = (props) => {
     return (
         <div className="user">
             <div className="details">
-                <h2>{user?.name}</h2>
+                <section>
+                <div>
                 <img src={user?.imageUrl} />
+                <h2>{user?.name}</h2>
+                </div>
+                <div>
                 <h3>{user?.points} Points</h3>
                 <h5>{user?.email}</h5>
+                </div>
+                <div>
                 <h6>Created at  {moment(user?.createdAt).format('h:mm:ss a')}</h6>
                 <h6>Updated at {moment(user?.updatedAt).format('h:mm:ss a')}</h6>
-                
-                {you ? 
-                <form onClick={()=>{ setEditDes(false);}} onSubmit={submitDes}>
-                    <input disabled={editDes} value={description} type="text" onChange={(e) => setDescription(e.target.value)} />    
-                    <button hidden={editDes} >Save</button>
-                </form>
-                : <p>{description}</p> }
+                </div>
+
+                </section>
+                <section>
                 
 
-
+                <div>
                 {giphy ? <iframe src={giphy} /> : null }
 
 
@@ -86,7 +89,20 @@ const User = (props) => {
                 }
 
                 {you ? <button onClick={handleGif}>{ edit?"Cancel":"Edit" }</button> : null}
-                
+                </div>
+
+                <div>
+                    <h6>About me:</h6>
+
+                {you ? 
+                <form onClick={()=>{ setEditDes(false);}} onSubmit={submitDes}>
+                    <input disabled={editDes} value={description} type="text" onChange={(e) => setDescription(e.target.value)} />    
+                    <button hidden={editDes} >Save</button>
+                </form>
+                : <p>{description}</p> }
+
+                </div>
+                </section>
                 
 
             </div>
