@@ -519,6 +519,7 @@ li.queue img:hover{
     width: 100%;
     left: 0;
     bottom: 0;
+    z-index: 999;
   }
   li {
     padding: 3px;
