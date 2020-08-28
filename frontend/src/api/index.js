@@ -8,7 +8,7 @@ console.log('coolbeans baby', baseURL)
 const token = window.localStorage.getItem('token')
 let t = token ? token.substring(0,15):null
 
-console.log(t, 'yo',process.env.NODE_ENV)
+console.log(t, 'yo',process.env)
 
 
 let head = () =>  { 
