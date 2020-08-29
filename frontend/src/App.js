@@ -75,7 +75,7 @@ const App = () => {
         </div>
         <div id="logo-container">
           <img id="logo" src="../logo.webp"/>
-          
+          <h5>{user.name}</h5>
         </div>
         <div id="logout-container">
         {/* <div>{user?.email}</div> */}
