@@ -9,7 +9,6 @@ import Giph from '../user/Giph'
 
 
 const Profile = (props) => {
-    console.log(props, ' hmmm')
     const [posts, setPosts] = useState([])
     const [otherPosts, setOtherPosts] = useState([])
     const [resolvedPosts, setResolvedPosts] = useState([])

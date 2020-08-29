@@ -15,7 +15,8 @@ const userSchema = new Schema(
     slack: { type: String, default: "Click here to set your slack name! Then use /q command in slack." },
     description: { type: String, default: "This is my description, meow meow meow" },
     giphy: { type: String, default: "https://giphy.com/embed/LmNwrBhejkK9EFP504" },
-    cohort: { type: String, default: "none" }
+    cohort: { type: String, default: "none" },
+    admin: { type: Boolean, default: false }
   },
   {
     timestamps: true,

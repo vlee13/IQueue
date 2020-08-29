@@ -14,6 +14,8 @@ import Post from './components/home/Post.js'
 import actions from "./api/index";
 import GoogleAuth from "./components/auth/GoogleAuth";
 import GoogleAuthLogin from "./components/auth/GoogleAuthLogin";
+import Admin from "./components/auth/Admin";
+
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 // import Loader from 'react-loader-spinner'
 
@@ -130,6 +132,12 @@ const App = () => {
           exact
           path="/profile"
           render={(props) => <Profile {...props} {...user} />}
+        />
+
+        <Route
+          exact
+          path="/admin"
+          render={(props) => <Admin {...props} {...user} />}
         />
 
         <Route component={NotFound} />

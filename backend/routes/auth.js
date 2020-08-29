@@ -101,40 +101,40 @@ router.post('/new-post', verifyToken, (req, res, next) => {
       res.status(403).json(err);
     } else {
       console.log(req.body, 'made it here', authData.user)
-      
+
       //I should be finding the user first and then seeing if they have enough money, 
       //then create the post,
       //then update the user
 
 
       //Make sure user hasn't exceeded resolve limit 
-      Post.find({"user" : authData.user._id, "resolved":false, "helper": {$exists: true}  }).then(p => {
+      Post.find({ "user": authData.user._id, "resolved": false, "helper": { $exists: true } }).then(p => {
         console.log(p, p.length, 'penguin')
-        if(p.length >= Number(process.env.RESOLVED_LIMIT)){
+        if (p.length >= Number(process.env.RESOLVED_LIMIT)) {
           return res.status(403).json({ name: "ResolveLimitExceeded", message: `Please resolve at least ${p.length - Number(process.env.RESOLVED_LIMIT) + 1} posts` })
         } else {
 
           //Make sure user has enough points to pay 
           User.findById(authData.user._id).then(user => {
-            console.log('THE YOOUUUUUUSER IS ', user,  Number(user.points) , Number(process.env.BOUNTY),  Number(user.points) - Number(process.env.BOUNTY))
-            if(( Number(user.points) - Number(process.env.BOUNTY) ) < 0) { //May want to use a BOUNTY created by user in future 
-              return res.status(403).json({ name: "NotEnough$$$", message: `You don't have enought points. The bounty is ${process.env.BOUNTY} and you have ${user.points}` }) 
+            console.log('THE YOOUUUUUUSER IS ', user, Number(user.points), Number(process.env.BOUNTY), Number(user.points) - Number(process.env.BOUNTY))
+            if ((Number(user.points) - Number(process.env.BOUNTY)) < 0) { //May want to use a BOUNTY created by user in future 
+              return res.status(403).json({ name: "NotEnough$$$", message: `You don't have enought points. The bounty is ${process.env.BOUNTY} and you have ${user.points}` })
             } else {
 
-            //Create Post 
-            let post = req.body
-            post.user = authData.user._id
-            Post
-              .create(post)
-              .then(posted => {
-                console.log('kiwi',posted)
-                User.findByIdAndUpdate(authData.user._id, { $inc: { points: -1 * posted.bounty } }, { new: true })
-                  .then(user => {
-                    notify(`${authData.user.name} added a new post. https://iqueue.netlify.app/post/${posted._id} <https:// https://iqueue.netlify.app/post/${posted._id}|POST>`)
-                    res.status(200).json({ posted, user })
-                  }).catch(err => console.error(err))
-      
-              }).catch(err => res.status(500).json(err))
+              //Create Post 
+              let post = req.body
+              post.user = authData.user._id
+              Post
+                .create(post)
+                .then(posted => {
+                  console.log('kiwi', posted)
+                  User.findByIdAndUpdate(authData.user._id, { $inc: { points: -1 * posted.bounty } }, { new: true })
+                    .then(user => {
+                      notify(`${authData.user.name} added a new post. https://iqueue.netlify.app/post/${posted._id} <https:// https://iqueue.netlify.app/post/${posted._id}|POST>`)
+                      res.status(200).json({ posted, user })
+                    }).catch(err => console.error(err))
+
+                }).catch(err => res.status(500).json(err))
             }
           }).catch(err => res.status(500).json(err))
 
@@ -163,7 +163,7 @@ router.post('/help', verifyToken, (req, res, next) => {
 
 
       //Find Total number of posts being helped by user 
-      Post.find({ helper: authData.user._id, resolved:false }).then(postsBeingHelped => {
+      Post.find({ helper: authData.user._id, resolved: false }).then(postsBeingHelped => {
         // console.log(postsBeingHelped, 'postsBeingHelped', postsBeingHelped?.length, 'kangaroo')
 
         //Dont allow exceeding the limit
@@ -210,7 +210,7 @@ router.get('/my-posts', verifyToken, (req, res, next) => {
       res.status(403).json(err);
     } else {
       Post
-        .find({ user: authData.user._id, resolved:false })
+        .find({ user: authData.user._id, resolved: false })
         .populate('helper')
         .then(posts => {
 
@@ -230,7 +230,7 @@ router.get('/resolved-posts', verifyToken, (req, res, next) => {
       res.status(403).json(err);
     } else {
       Post
-        .find({ helper: authData.user._id, resolved:true })
+        .find({ helper: authData.user._id, resolved: true })
         .populate('helper')
         .then(posts => {
 
@@ -249,7 +249,7 @@ router.get('/others-resolve-my-posts', verifyToken, (req, res, next) => {
       res.status(403).json(err);
     } else {
       Post
-        .find({ user: authData.user._id, resolved:true })
+        .find({ user: authData.user._id, resolved: true })
         .populate('helper')
         .then(posts => {
           res.status(200).json(posts)
@@ -266,7 +266,7 @@ router.get('/other-posts', verifyToken, (req, res, next) => {
       res.status(403).json(err);
     } else {
       Post
-        .find({ helper: authData.user._id, resolved:false}) //resolved:false
+        .find({ helper: authData.user._id, resolved: false }) //resolved:false
         .populate('user')
         .then(posts => res.status(200).json(posts))
         .catch(err => res.status(500).json(err))
@@ -344,10 +344,10 @@ router.post('/cancel-post', verifyToken, (req, res, next) => {
       Post
         .findByIdAndDelete(post._id)
         .then(dPost => {
-          console.log('dPost',dPost)
-          if(!dPost){
-            return res.status(500).json({ name:"PostDeleted", message: "Post already deleted"})
-          } else { 
+          console.log('dPost', dPost)
+          if (!dPost) {
+            return res.status(500).json({ name: "PostDeleted", message: "Post already deleted" })
+          } else {
             User
               .findByIdAndUpdate(authData.user._id, { $inc: { points: post.bounty } }, { new: true })
               .then(user => {
@@ -355,7 +355,7 @@ router.post('/cancel-post', verifyToken, (req, res, next) => {
                 res.status(200).json({ dPost, user })
               }).catch(err => res.status(500).json(err))
           }
-      }).catch(err => res.status(500).json(err))
+        }).catch(err => res.status(500).json(err))
 
     }
   })
@@ -399,33 +399,33 @@ router.post('/updateSlack', verifyToken, (req, res, next) => {
 router.get('/get-all-users', (req, res, next) => {
   User
     .find()
-    .then(users=> res.json({users}))
+    .then(users => res.json({ users }))
     .catch(err => res.status(500).json(err))
-    
+
 })
 
 
 router.get('/get-other-user', (req, res, next) => {
 
   Post //Not being used 
-    .find({user:req.query.id})
+    .find({ user: req.query.id })
     .populate('helper') //not being used 
     .then(posts => {
       User
         .findById(req.query.id)
         //.populate('posts') isn't full 
-        .then(user=> { 
+        .then(user => {
           console.log(user, 'crap')
-          res.json({user, posts})
+          res.json({ user, posts })
         })
-        .catch(err => { 
+        .catch(err => {
           console.log(err, 'errr')
           res.status(500).json(err)
         })
-      }).catch(err => { 
+    }).catch(err => {
       console.log(err, 'errr')
       res.status(500).json(err)
-  })
+    })
 
 })
 
@@ -435,37 +435,37 @@ router.get('/post', (req, res, next) => {
     .findById(req.query.id)
     .populate('user')
     .populate('helper')
-    .then(post=> res.json({post}))
+    .then(post => res.json({ post }))
     .catch(err => res.status(500).json(err))
 })
 
 
-router.post('/slack', (req, res,next) => {
+router.post('/slack', (req, res, next) => {
   console.log('slack iqqqq', req.body.user_name)
 
-  if(!req.body.user_name) {
+  if (!req.body.user_name) {
     return res.status(500).json(req.body)
   }
 
 
-  User.findOne({slack:req.body.user_name}).then(user => {
-    console.log('user',user)
-    if(!user){
+  User.findOne({ slack: req.body.user_name }).then(user => {
+    console.log('user', user)
+    if (!user) {
       return res.send(`No slack user by name ${req.body.user_name}.  Update on https://iqueue.netlify.app/profile`)
     }
     Post
-    .create({message:req.body.text, user: user._id})
-    .then(posted => {
+      .create({ message: req.body.text, user: user._id })
+      .then(posted => {
 
-      User.findByIdAndUpdate(user._id, { $inc: { points: -1 * posted.bounty } }, { new: true })
-        .then(user => {
-          console.log('user2',user)
-          notify(`${user.name} added a new post at https://iqueue.netlify.app/post/${posted._id}`)
-          res.status(200).send(`${user.name} added a new post at https://iqueue.netlify.app/post/${posted._id}`)//.json({ posted, user })
-        }).catch(err => console.error(err))
+        User.findByIdAndUpdate(user._id, { $inc: { points: -1 * posted.bounty } }, { new: true })
+          .then(user => {
+            console.log('user2', user)
+            notify(`${user.name} added a new post at https://iqueue.netlify.app/post/${posted._id}`)
+            res.status(200).send(`${user.name} added a new post at https://iqueue.netlify.app/post/${posted._id}`)//.json({ posted, user })
+          }).catch(err => console.error(err))
 
-    })
-    .catch(err => res.status(500).json(err))
+      })
+      .catch(err => res.status(500).json(err))
   })
 })
 
@@ -510,22 +510,45 @@ router.post('/saveDescription', verifyToken, (req, res, next) => {
 /***Identical */
 
 
-// router.post('/saveDescription', verifyToken, (req, res, next) => {
-//   jwt.verify(req.token, 'secretkey', (err, authData) => {
-//     if (err) {
-//       res.status(403).json(err);
-//     } else {
-//       User
-//         .findByIdAndUpdate(authData.user._id, req.body, { upsert: true, new: true })
-//         .then(user => {
-//           console.log(user, 'update slack')
-//           res.status(200).json({ user })
-//         }).catch(err => res.status(500).json(err))
-//     }
-//   })
-// })
+router.post('/reset-cohort-points', verifyToken, (req, res, next) => {
 
-function reachedResolvedLimit(){
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+
+    if (err) {
+      res.status(403).json(err);
+    } else {
+
+      let points = Number(req.body.points);
+      let cohort = req.body.cohort;
+
+      User.findById(authData.user._id).then(user => {
+        if (user.admin) { //Check if admin
+
+          if (isNaN(points) || !cohort) { //Check if no points or cohort
+            return res.status(500).json({ points, cohort })
+          } else {
+            //Reset points in cohort 
+
+            User.updateMany({ cohort: req.body.cohort }, { $set: { points: points } }, { new: true }).then(cohort => {
+              res.status(200).json({ cohort })
+            }).catch(err => res.status(500).json(err))
+
+          }
+
+
+        } else {
+          return res.status(500).json({ message: `You're not an admin ${user.name}` })
+        }
+
+
+      }).catch(err => res.status(500).json(err))
+
+
+    }
+  })
+})
+
+function reachedResolvedLimit() {
   Post.find({})
   //> db.posts.find({"helper" : ObjectId("5f44baa597b4f369c3b62123"), "resolved":false}).pretty()
 }
@@ -537,9 +560,9 @@ function reachedResolvedLimit(){
 
 function notify(message) {
   console.log('notify', process.env.SLACK, message)
-  if(process.env.SLACK == 'yes'){
+  if (process.env.SLACK == 'yes') {
     axios.post(process.env.SLACK_HOOK, `{"text":"${message}"}`)
-      .then(res=>console.log(res.message)).catch(err=>console.error(err.message))
+      .then(res => console.log(res.message)).catch(err => console.error(err.message))
 
   }
 

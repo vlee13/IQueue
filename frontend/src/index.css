@@ -291,7 +291,7 @@ button#morePosts:hover{
 
 }
 
-input[type="text"]{
+input{
   padding: 10px 0;
   width: 100%;
   text-align: center;

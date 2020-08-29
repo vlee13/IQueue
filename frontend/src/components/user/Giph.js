@@ -5,7 +5,6 @@ import actions from '../../api'
 
 
 const Giph = (props) => {
-    console.log(props)
     const [edit, setEdit] = useState(false)
     const [user, setUser] = useState({})
     const [giphy, setGiphy] = useState()
