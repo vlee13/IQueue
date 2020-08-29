@@ -106,20 +106,47 @@ router.post('/new-post', verifyToken, (req, res, next) => {
       //then create the post,
       //then update the user
 
-      let post = req.body
-      post.user = authData.user._id
-      Post
-        .create(post)
-        .then(posted => {
-          console.log('kiwi',posted)
-          User.findByIdAndUpdate(authData.user._id, { $inc: { points: -1 * posted.bounty } }, { new: true })
-            .then(user => {
-              notify(`${authData.user.name} added a new post. https://iqueue.netlify.app/post/${posted._id} <https://someurl|like this>`)
-              res.status(200).json({ posted, user })
-            }).catch(err => console.error(err))
 
-        })
-        .catch(err => res.status(500).json(err))
+      //Make sure user hasn't exceeded resolve limit 
+      Post.find({"user" : authData.user._id, "resolved":false, "helper": {$exists: true}  }).then(p => {
+        console.log(p, p.length, 'penguin')
+        if(p.length >= Number(process.env.RESOLVED_LIMIT)){
+          return res.status(403).json({ name: "ResolveLimitExceeded", message: `Please resolve at least ${p.length - Number(process.env.RESOLVED_LIMIT) + 1} posts` })
+        } else {
+
+          //Make sure user has enough points to pay 
+          User.findById(authData.user._id).then(user => {
+            console.log('THE YOOUUUUUUSER IS ', user,  Number(user.points) , Number(process.env.BOUNTY),  Number(user.points) - Number(process.env.BOUNTY))
+            if(( Number(user.points) - Number(process.env.BOUNTY) ) < 0) { //May want to use a BOUNTY created by user in future 
+              return res.status(403).json({ name: "NotEnough$$$", message: `You don't have enought points. The bounty is ${process.env.BOUNTY} and you have ${user.points}` }) 
+            } else {
+
+            //Create Post 
+            let post = req.body
+            post.user = authData.user._id
+            Post
+              .create(post)
+              .then(posted => {
+                console.log('kiwi',posted)
+                User.findByIdAndUpdate(authData.user._id, { $inc: { points: -1 * posted.bounty } }, { new: true })
+                  .then(user => {
+                    notify(`${authData.user.name} added a new post. https://iqueue.netlify.app/post/${posted._id} <https://someurl|like this>`)
+                    res.status(200).json({ posted, user })
+                  }).catch(err => console.error(err))
+      
+              }).catch(err => res.status(500).json(err))
+            }
+          }).catch(err => res.status(500).json(err))
+
+
+
+
+        }
+      })
+
+
+
+
     }
   });
 })
@@ -481,6 +508,31 @@ router.post('/saveDescription', verifyToken, (req, res, next) => {
   })
 })
 /***Identical */
+
+
+// router.post('/saveDescription', verifyToken, (req, res, next) => {
+//   jwt.verify(req.token, 'secretkey', (err, authData) => {
+//     if (err) {
+//       res.status(403).json(err);
+//     } else {
+//       User
+//         .findByIdAndUpdate(authData.user._id, req.body, { upsert: true, new: true })
+//         .then(user => {
+//           console.log(user, 'update slack')
+//           res.status(200).json({ user })
+//         }).catch(err => res.status(500).json(err))
+//     }
+//   })
+// })
+
+function reachedResolvedLimit(){
+  Post.find({})
+  //> db.posts.find({"helper" : ObjectId("5f44baa597b4f369c3b62123"), "resolved":false}).pretty()
+}
+
+
+
+
 
 
 function notify(message) {
