@@ -130,7 +130,7 @@ router.post('/new-post', verifyToken, (req, res, next) => {
                 console.log('kiwi',posted)
                 User.findByIdAndUpdate(authData.user._id, { $inc: { points: -1 * posted.bounty } }, { new: true })
                   .then(user => {
-                    notify(`${authData.user.name} added a new post. https://iqueue.netlify.app/post/${posted._id} <https://someurl|like this>`)
+                    notify(`${authData.user.name} added a new post. https://iqueue.netlify.app/post/${posted._id} <https:// https://iqueue.netlify.app/post/${posted._id}|POST>`)
                     res.status(200).json({ posted, user })
                   }).catch(err => console.error(err))
       
