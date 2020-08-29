@@ -11,7 +11,7 @@ const Admin = ({ admin }) => {
         e.preventDefault()
         console.log(cohort, points)
 
-        let areYourSure = window.confirm(`Are you sure you want to reset ${points} to ${cohort}`)
+        let areYourSure = window.confirm(`Are you sure you want to reset ${cohort} to ${points}`)
         if (areYourSure) {
             actions.resetCohortPoints({ cohort, points }).then(res => {
                 console.log('reset', res)

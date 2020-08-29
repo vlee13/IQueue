@@ -521,6 +521,9 @@ router.post('/reset-cohort-points', verifyToken, (req, res, next) => {
       let points = Number(req.body.points);
       let cohort = req.body.cohort;
 
+      console.log(req.body)
+
+
       User.findById(authData.user._id).then(user => {
         if (user.admin) { //Check if admin
 
