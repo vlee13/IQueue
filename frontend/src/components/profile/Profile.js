@@ -4,10 +4,12 @@ import TheContext from '../../TheContext'
 import actions from '../../api'
 import moment from 'moment'
 import { NotificationManager } from 'react-notifications';
+import Giph from '../user/Giph'
 
 
 
 const Profile = (props) => {
+    console.log(props, ' hmmm')
     const [posts, setPosts] = useState([])
     const [otherPosts, setOtherPosts] = useState([])
     const [resolvedPosts, setResolvedPosts] = useState([])
@@ -28,29 +30,29 @@ const Profile = (props) => {
         }).catch(err => console.error(err))
 
         actions.getMyResolvedPosts().then(posts => {
-            if(posts)
+            if (posts)
                 setResolvedPosts(posts.data.reverse())
         }).catch(err => console.error(err))
 
         actions.getOthersResolvedMyPosts().then(posts => {
-            if(posts)
+            if (posts)
                 setOtherResolvedPosts(posts.data.reverse())
         })
 
     }, [])
-    
+
 
 
     return (
-        <div>
+        <div className="profile-view">
+            <AddPost {...props} posts={posts} />
 
             <Welcome />  {/*'Look ma!  No props!!!'*/}
-            <AddPost {...props} posts={posts} />
             <MyPosts posts={posts} setPosts={setPosts} />
-            <OthersPosts posts={otherPosts} setOtherPosts={setOtherPosts}/>
+            <OthersPosts posts={otherPosts} setOtherPosts={setOtherPosts} />
             <ResolvedPosts posts={resolvedPosts} setResolvedPosts={setResolvedPosts} />
             <OtherResolvedPosts posts={otherResolvedPosts} setOtherResolvedPosts={setOtherResolvedPosts} />
-
+            <Giph {...props} />
         </div>
     );
 }
@@ -59,9 +61,12 @@ function MyPosts({ posts, setPosts }) {
     console.log("my posts")
     let rows = posts.map((post, i) => <EachMyPost key={post?._id} post={post} posts={posts} setPosts={setPosts} i={i} />)
 
-    rows.unshift(
-        React.createElement('h2', { key: 'help you' }, 'I need help with:')
-    )
+
+    if (rows.length > 0) {
+        rows.unshift(
+            React.createElement('h2', { key: 'help you' }, 'I need help with:')
+        )
+    }
     return rows
 }
 
@@ -73,12 +78,12 @@ function EachMyPost({ post, posts, setPosts, i }) {
     let [resolve, setResolve] = useState(post.resolved)
     let [timeUp, setTimeup] = useState(false)
     let [time, setTime] = useState(0)
-    
+
     let [countdown, setCountDown] = useState(5)
     let [countInt, setCountInt] = useState(null)
 
     const startCountDown = () => {
-        return setInterval(()=>setCountDown(--countdown), 1000)
+        return setInterval(() => setCountDown(--countdown), 1000)
     }
 
 
@@ -88,13 +93,13 @@ function EachMyPost({ post, posts, setPosts, i }) {
 
     const resolvePost = (val) => (event) => {
 
-   
+
         setResolve(val)
         console.log(val)
-        if(val) {
+        if (val) {
             console.log('resolve')
-            let t = setTimeout((x) => { 
-                
+            let t = setTimeout((x) => {
+
                 actions.resolvePost({ post, resolved: val }).then(res => {
                     let newPosts = [...posts]
                     newPosts[i] = res.data.posted
@@ -168,36 +173,40 @@ function EachMyPost({ post, posts, setPosts, i }) {
 
 function OthersPosts({ posts, setOtherPosts }) {
 
-    let rows = posts.map((post, j) => <OPost key={post._id} post={post} posts={posts} setOtherPosts={setOtherPosts} j={j}/>)
-    rows.unshift(
-        React.createElement('h2', { key: 'help me' }, 'Im helping:')
-    )
+    let rows = posts.map((post, j) => <OPost key={post._id} post={post} posts={posts} setOtherPosts={setOtherPosts} j={j} />)
+    if (rows.length > 0) {
+        rows.unshift(
+            React.createElement('h2', { key: 'help me' }, 'Im helping:')
+        )
+    }
     return rows
 }
 
 
-function OPost({post, posts, setOtherPosts, j}){
-    
+function OPost({ post, posts, setOtherPosts, j }) {
+
     //Same function exists in Home.  This could be cleaned up.
     const help = (val) => (event) => {
         console.log('help', post, val)
 
-        actions.helpUser({post, help:val}).then(res => {
+        actions.helpUser({ post, help: val }).then(res => {
             let newPosts = [...posts]
-            newPosts.splice(j,1)
+            newPosts.splice(j, 1)
             setOtherPosts(newPosts)
         }).catch(err => console.error(err))
     }
     return (
         <li key={post._id}>
-            <div>{post.message}
+            <div>
+                <div>{post.message}</div>
                 <i>{post.bounty}</i>
                 <i><img src={post.user?.imageUrl} /></i>
                 <i>Created {moment(post.createdAt).format('h:mm:ss a')}</i>
                 <i>Last updated {moment(post.updatedAt).format('h:mm:ss a')}</i>
+                <div>You're helping {post.user?.name}</div>
+
             </div>
 
-            <div>You're helping {post.user?.name}</div>
 
 
             <button onClick={help(false)}> Nevermind <h2> 🛑</h2></button>
@@ -229,10 +238,10 @@ const AddPost = ({ history, posts }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        
-        if(user?.calendly === "https://calendly.com/ Click here to set your calendly!")
+
+        if (user?.calendly === "https://calendly.com/ Click here to set your calendly!")
             return alert('Please set your calendly before posting...')
-        
+
         actions.addPost({ message }).then(res => {
             console.log(res)
             setUser(res.data.user)
@@ -262,8 +271,8 @@ const AddPost = ({ history, posts }) => {
 
 const Welcome = () => {
 
-    let { user, history, setUser} = useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
-    
+    let { user, history, setUser } = useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
+
     let [calendly, setCalendly] = useState(user?.calendly)
     let [edit, setEdit] = useState(true)
 
@@ -273,23 +282,23 @@ const Welcome = () => {
 
     const submitCalendly = (e) => {
         e.preventDefault()
-        actions.updateCalendly({calendly}).then(res => {
+        actions.updateCalendly({ calendly }).then(res => {
             console.log(res)
             NotificationManager.success(`You've updated your calendly`)
             setEdit(true)
             setUser(res.data.user)
         }).catch(err => console.error(err))
-    } 
-    
+    }
+
     const submitSlack = (e) => {
         e.preventDefault()
-        actions.updateSlack({slack}).then(res => {
+        actions.updateSlack({ slack }).then(res => {
             console.log(res)
             NotificationManager.success(`You've updated your slack username`)
             setEditSlack(true)
             setUser(res.data.user)
         }).catch(err => console.error(err))
-    } 
+    }
 
     if (!user) {
         return <Redirect to='/' />;
@@ -297,23 +306,23 @@ const Welcome = () => {
     //onClick={() => history.push('/')}
     return (
         <Fragment>
-        <div className="profile">
-            <img src={user?.imageUrl} />
-            <div >
-                Welcome {user?.name}
+            <div className="profile">
+                <img src={user?.imageUrl} />
+                <div >
+                    Welcome {user?.name}
+                </div>
+                <div>{user?.points} Points</div>
             </div>
-            <div>{user?.points} Points</div>
 
-        </div>
-        <form id="cal" onClick={()=>{ setEdit(false);}} onSubmit={submitCalendly}>
-            <input disabled={edit} value={calendly} type="text" onChange={(e) => setCalendly(e.target.value)} />    
-            <button hidden={edit} >Save</button>
-        </form>
+            <form id="cal" onClick={() => { setEdit(false); }} onSubmit={submitCalendly}>
+                <input disabled={edit} value={calendly} type="text" onChange={(e) => setCalendly(e.target.value)} />
+                <button hidden={edit} >Save</button>
+            </form>
 
-        <form id="cal" onClick={()=>{ setEditSlack(false);}} onSubmit={submitSlack}>
-            <input disabled={editSlack} value={slack} type="text" onChange={(e) => setSlack(e.target.value)} />    
-            <button hidden={editSlack} >Save</button>
-        </form>
+            <form id="cal" onClick={() => { setEditSlack(false); }} onSubmit={submitSlack}>
+                <input disabled={editSlack} value={slack} type="text" onChange={(e) => setSlack(e.target.value)} />
+                <button hidden={editSlack} >Save</button>
+            </form>
         </Fragment>
     )
 }
@@ -351,20 +360,22 @@ function ResolvedPosts({ posts, setResolvedPosts }) {
     let rows = posts.map(post => {
         return (
             <li key={post._id}>
-            <div>{post.message}
-                <i>Helped by {post.helper?.name}</i>
-                <i>{post.bounty}</i>
-                <i><img src={post.user?.imageUrl} /></i>
-                <i>Created {moment(post.createdAt).format('h:mm:ss a')}</i>
-                <i>Last updated {moment(post.updatedAt).format('h:mm:ss a')}</i>
-            </div>
+                <div>{post.message}
+                    <i>Helped by {post.helper?.name}</i>
+                    <i>{post.bounty}</i>
+                    <i><img src={post.user?.imageUrl} /></i>
+                    <i>Created {moment(post.createdAt).format('h:mm:ss a')}</i>
+                    <i>Last updated {moment(post.updatedAt).format('h:mm:ss a')}</i>
+                </div>
 
             </li>
         )
     })
-    rows.unshift(
-        React.createElement('h2', { key: 'all done' }, 'Resolved Posts:')
-    )
+    if (rows.length > 0) {
+        rows.unshift(
+            React.createElement('h2', { key: 'all done' }, 'Resolved Posts:')
+        )
+    }
     return rows
 }
 
@@ -374,20 +385,22 @@ function OtherResolvedPosts({ posts, setResolvedPosts }) {
     let rows = posts.map(post => {
         return (
             <li key={post._id}>
-            <div>{post.message}
-                <i>Helped by {post.helper?.name}</i>
-                <i>{post.bounty}</i>
-                <i><img src={post.user?.imageUrl} /></i>
-                <i>Created {moment(post.createdAt).format('h:mm:ss a')}</i>
-                <i>Last updated {moment(post.updatedAt).format('h:mm:ss a')}</i>
-            </div>
+                <div>{post.message}
+                    <i>Helped by {post.helper?.name}</i>
+                    <i>{post.bounty}</i>
+                    <i><img src={post.user?.imageUrl} /></i>
+                    <i>Created {moment(post.createdAt).format('h:mm:ss a')}</i>
+                    <i>Last updated {moment(post.updatedAt).format('h:mm:ss a')}</i>
+                </div>
 
             </li>
         )
     })
-    rows.unshift(
-        React.createElement('h2', { key: 'all done' }, 'Others Resolved My Posts:')
-    )
+    if (rows.length > 0) {
+        rows.unshift(
+            React.createElement('h2', { key: 'all done' }, 'Others Resolved My Posts:')
+        )
+    }
     return rows
 }
 

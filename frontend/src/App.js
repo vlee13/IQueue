@@ -14,7 +14,7 @@ import Post from './components/home/Post.js'
 import actions from "./api/index";
 import GoogleAuth from "./components/auth/GoogleAuth";
 import GoogleAuthLogin from "./components/auth/GoogleAuthLogin";
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 // import Loader from 'react-loader-spinner'
 
 
@@ -26,17 +26,17 @@ const App = () => {
   let [gif, setGif] = useState(null)
   useEffect(() => {
     async function getUser() {
-      
+
       let user = await actions.getUser();
       console.log('user is', user)
       setUser(user?.data)
       setLoading(false)
     }
 
-    async function getGif(){
-      setGif( await actions.getGif('dog') )
-      setTimeout( async () => setGif( await actions.getGif('cat') ), 9999)
-    } 
+    async function getGif() {
+      setGif(await actions.getGif('dog'))
+      setTimeout(async () => setGif(await actions.getGif('cat')), 9999)
+    }
 
 
     getUser();
@@ -46,11 +46,11 @@ const App = () => {
 
 
   const count = () => {
-    if(countdown > 0){
-      setTimeout(()=>{
+    if (countdown > 0) {
+      setTimeout(() => {
         setCountDown(--countdown)
         count()
-      },1000)
+      }, 1000)
     }
   }
 
@@ -62,33 +62,33 @@ const App = () => {
   const history = useHistory();
 
   return (
-    
+
     <TheContext.Provider value={{ history, user, setUser }}>
-      
-    { user ?
-      <header>
-        <div id="slack-container">
-          <a href="https://join.slack.com/t/iq-fi09620/shared_invite/zt-gv19tftc-KCm05Njhgx_17Tla_eIDGQ">
-            <img id="slackLogo" src="../slack.jpg" /> 
-            {/* <label>Workspace</label> */}
-          </a>
-        </div>
-        <div id="logo-container">
-          <img id="logo" src="../logo.webp"/>
-          <h5>{user.name}</h5>
-        </div>
-        <div id="logout-container">
-        {/* <div>{user?.email}</div> */}
-          <NavLink id="logOut" onClick={logOut} to="/">
-            <img id="logout" src="../logOutt.png"/>
-            {/* <label>Log Out</label> */}
-          </NavLink>
-        </div>
+
+      {user ?
+        <header>
+          <div id="slack-container">
+            <a href="https://join.slack.com/t/iq-fi09620/shared_invite/zt-gv19tftc-KCm05Njhgx_17Tla_eIDGQ">
+              <img id="slackLogo" src="../slack.jpg" />
+              {/* <label>Workspace</label> */}
+            </a>
+          </div>
+          <div id="logo-container">
+            <img id="logo" src="../logo.webp" />
+            <h5>{user.name}</h5>
+          </div>
+          <div id="logout-container">
+            {/* <div>{user?.email}</div> */}
+            <NavLink id="logOut" onClick={logOut} to="/">
+              <img id="logout" src="../logOutt.png" />
+              {/* <label>Log Out</label> */}
+            </NavLink>
+          </div>
 
 
 
-      </header> 
-    : null }
+        </header>
+        : null}
       <nav>
 
         {user ? (
@@ -102,7 +102,7 @@ const App = () => {
             <Fragment>
               {/* <NavLink to="/sign-up">Sign Up |</NavLink>
               <NavLink to="/log-in">Log In |</NavLink> */}
-              {!user && <GoogleAuth setUser={setUser} history={history}/>}
+              {!user && <GoogleAuth setUser={setUser} history={history} />}
               {!user && <GoogleAuthLogin setUser={setUser} history={history} />}
             </Fragment>
           )}
@@ -114,12 +114,12 @@ const App = () => {
           exact
           path="/all"
           render={(props) => <AllUsers {...props} />}
-        />    
+        />
 
         <Route
           exact
           path="/user/:id"
-          render={(props) => <User {...props} {...user}/>}
+          render={(props) => <User {...props} {...user} />}
         />
         <Route
           exact
@@ -129,7 +129,7 @@ const App = () => {
         <Route
           exact
           path="/profile"
-          render={(props) => <Profile {...props} />}
+          render={(props) => <Profile {...props} {...user} />}
         />
 
         <Route component={NotFound} />
@@ -139,20 +139,20 @@ const App = () => {
 
       <NotificationContainer />
 
-      {loading ? 
-            
-            // <h1 className="loading">Loading</h1>
-            <Fragment>
-                          
-              <div className="loading">
-                <h1>Loading<span className="dots"><span>.</span><span>.</span><span>.</span></span></h1>
-                <h5>Waking up heroku may take up to <span className="countdown"> {countdown} </span>  seconds</h5>
-                <iframe src={gif} width="100%" height="100%" frameBorder="0" className="giphy-embed" allowFullScreen></iframe>
-              </div>
+      {loading ?
 
-            </Fragment>
+        // <h1 className="loading">Loading</h1>
+        <Fragment>
 
-      : null }
+          <div className="loading">
+            <h1>Loading<span className="dots"><span>.</span><span>.</span><span>.</span></span></h1>
+            <h5>Waking up heroku may take up to <span className="countdown"> {countdown} </span>  seconds</h5>
+            <iframe src={gif} width="100%" height="100%" frameBorder="0" className="giphy-embed" allowFullScreen></iframe>
+          </div>
+
+        </Fragment>
+
+        : null}
     </TheContext.Provider>
 
   )

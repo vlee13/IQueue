@@ -22,7 +22,7 @@ const User = (props) => {
         }).catch(err => console.error(err))
 
 
-        
+
     }, [])
 
 
@@ -31,7 +31,7 @@ const User = (props) => {
     }
 
     const saveGiphy = (giphy) => {
-        actions.saveGif({giphy}).then(res => {
+        actions.saveGif({ giphy }).then(res => {
             setUser(res?.data?.user)
             setEdit(false)
             setGiphy(giphy)
@@ -43,10 +43,10 @@ const User = (props) => {
     const submitDes = e => {
         e.preventDefault()
         console.log(description)
-        actions.saveDescription({description}).then(res => {
+        actions.saveDescription({ description }).then(res => {
             setUser(res?.data?.user)
-            setDescription(description) 
-            setEditDes(true)           
+            setDescription(description)
+            setEditDes(true)
         }).catch(err => console.error(err))
     }
 
@@ -54,56 +54,56 @@ const User = (props) => {
         <div className="user">
             <div className="details">
                 <section>
-                <div>
-                <img src={user?.imageUrl} />
-                <h2>{user?.name}</h2>
-                </div>
-                <div>
-                <h3>{user?.points} Points</h3>
-                <h5>{user?.email}</h5>
-                </div>
-                <div>
-                <h6>Created at  {moment(user?.createdAt).format('h:mm:ss a')}</h6>
-                <h6>Updated at {moment(user?.updatedAt).format('h:mm:ss a')}</h6>
-                </div>
+                    <div>
+                        <img src={user?.imageUrl} />
+                        <h2>{user?.name}</h2>
+                    </div>
+                    <div>
+                        <h3>{user?.points} Points</h3>
+                        <h5>{user?.email}</h5>
+                    </div>
+                    <div>
+                        <h6>Created at  {moment(user?.createdAt).format('h:mm:ss a')}</h6>
+                        <h6>Updated at {moment(user?.updatedAt).format('h:mm:ss a')}</h6>
+                    </div>
 
                 </section>
                 <section>
-                
-
-                <div>
-                {giphy ? <iframe src={giphy} /> : null }
 
 
-                {you && edit ? 
-                    <Fragment>
+                    <div>
+                        {giphy ? <iframe src={giphy} /> : null}
 
-                        <ReactGiphySearchbox
-                        apiKey={process.env.REACT_APP_GIPHY}
-                        onSelect={item => saveGiphy(item?.embed_url)}
-                        />
-                    </Fragment>
 
-                : 
-                    null
-                }
+                        {you && edit ?
+                            <Fragment>
 
-                {you ? <button onClick={handleGif}>{ edit?"Cancel":"Edit" }</button> : null}
-                </div>
+                                <ReactGiphySearchbox
+                                    apiKey={process.env.REACT_APP_GIPHY}
+                                    onSelect={item => saveGiphy(item?.embed_url)}
+                                />
+                            </Fragment>
 
-                <div>
-                    <h6>About me:</h6>
+                            :
+                            null
+                        }
 
-                {you ? 
-                <form onClick={()=>{ setEditDes(false);}} onSubmit={submitDes}>
-                    <input disabled={editDes} value={description} type="text" onChange={(e) => setDescription(e.target.value)} />    
-                    <button hidden={editDes} >Save</button>
-                </form>
-                : <p>{description}</p> }
+                        {you ? <button onClick={handleGif}>{edit ? "Cancel" : "Edit"}</button> : null}
+                    </div>
 
-                </div>
+                    <div>
+                        <h6>About me:</h6>
+
+                        {you ?
+                            <form onClick={() => { setEditDes(false); }} onSubmit={submitDes}>
+                                <input disabled={editDes} value={description} type="text" onChange={(e) => setDescription(e.target.value)} />
+                                <button hidden={editDes} >Save</button>
+                            </form>
+                            : <p>{description}</p>}
+
+                    </div>
                 </section>
-                
+
 
             </div>
 
